@@ -104,7 +104,7 @@
             .reveal { opacity: 1; transform: none; }
         }
 
-        /* --- HEADER : burger à gauche, logo centré, contact à droite --- */
+        /* --- HEADER --- */
         header {
             position: fixed;
             top: 0; left: 0;
@@ -154,7 +154,6 @@
             justify-self: end;
         }
 
-        /* --- MENU BURGER (sans rond) --- */
         .menu-toggle {
             display: block;
             width: 48px; height: 48px;
@@ -185,7 +184,7 @@
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
         .menu-toggle.open span:nth-child(3) { top: 23px; transform: rotate(-45deg); }
 
-        /* --- DRAWER LATÉRAL (glisse depuis la gauche) --- */
+        /* --- DRAWER --- */
         .mobile-drawer {
             position: fixed;
             top: 0; left: 0;
@@ -373,7 +372,6 @@
 
         .drawer-socials a:hover { color: var(--accent); }
 
-        /* --- OVERLAY DERRIÈRE LE DRAWER --- */
         .drawer-overlay {
             position: fixed;
             inset: 0;
@@ -390,7 +388,7 @@
             pointer-events: auto;
         }
 
-        /* --- BOUTON CONTACT (texte simple, sans fond) --- */
+        /* --- BOUTON CONTACT --- */
         .btn-contact {
             background: none;
             border: none;
@@ -511,15 +509,6 @@
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
-        }
-
-        .hero-intro {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0;
-            margin-bottom: 1.5rem;
-            animation: fadeIn 1s 0.3s forwards;
         }
 
         .hero h1 {
@@ -649,12 +638,10 @@
             margin: 0 auto;
         }
 
-        /* ============================================ */
-        /* --- COVERFLOW CORRIGÉ --- */
-        /* ============================================ */
+        /* --- COVERFLOW 4:3 --- */
         .coverflow-container {
             position: relative;
-            height: 520px;
+            height: 480px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -677,10 +664,10 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 320px;
-            height: 460px;
-            margin-left: -160px;
-            margin-top: -230px;
+            width: 480px;
+            height: 360px;
+            margin-left: -240px;
+            margin-top: -180px;
             border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
@@ -728,17 +715,9 @@
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .card-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 0.8rem;
-            display: block;
-        }
 
         .card-main-title {
-            font-size: 2rem;
+            font-size: 1.7rem;
             font-weight: 700;
             letter-spacing: -1px;
             line-height: 1.1;
@@ -842,107 +821,361 @@
         }
 
         /* ============================================ */
-
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                        backdrop-filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* --- PAGE PROJET DÉDIÉE (style Behance) --- */
+        /* ============================================ */
+        .project-detail-page {
+            padding-top: 0;
+            padding-bottom: 0;
+            background: var(--bg-dark);
         }
 
-        .modal-overlay.active {
+        .project-hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: flex-end;
+            padding: 12rem 5% 4rem;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        .project-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.35) blur(2px);
+            transform: scale(1.05);
+            z-index: 0;
+        }
+
+        .project-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.6) 50%, rgba(5,5,5,0.3) 100%);
+            z-index: 1;
+        }
+
+        .project-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .project-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2.5rem;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .project-back-link:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .project-hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            letter-spacing: -4px;
+            line-height: 0.95;
+            text-transform: uppercase;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        .project-hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .project-hero-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .project-hero-meta-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .project-hero-meta-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .project-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 5%;
+        }
+
+        .project-content-section {
+            margin-bottom: 5rem;
+        }
+
+        .project-content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-content-section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .project-content-section p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        .project-content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-content-section.intro p {
+            font-size: 1.35rem;
+            line-height: 1.7;
+            color: #e5e5e5;
+        }
+
+        .project-fullwidth-image {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto 5rem;
+            padding: 0 5%;
+        }
+        .project-fullwidth-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+            cursor: zoom-in;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-fullwidth-image img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .project-image-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto 5rem;
+            padding: 0 5%;
+        }
+        .project-image-grid.cols-1 { grid-template-columns: 1fr; }
+        .project-image-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+        .project-image-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .project-image-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .project-image-grid-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        .project-image-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            aspect-ratio: 4/3;
+            cursor: zoom-in;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-image-grid-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-image-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .project-credits {
+            max-width: 900px;
+            margin: 0 auto 6rem;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2.5rem;
+        }
+        .project-credit-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .project-credit-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+        .project-credit-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .project-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 4rem;
+        }
+        .project-nav-item {
+            padding: 4rem 5%;
+            cursor: pointer;
+            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .project-nav-item:first-child {
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .project-nav-item:hover {
+            background: rgba(255,69,0,0.05);
+        }
+        .project-nav-item:hover .project-nav-title {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .project-nav-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .project-nav-item.next .project-nav-label {
+            justify-content: flex-end;
+        }
+        .project-nav-title {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            color: white;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .project-nav-item.next .project-nav-title {
+            text-align: right;
+        }
+        .project-nav-tag {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .project-nav-item.next .project-nav-tag {
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .project-hero {
+                min-height: 60vh;
+                padding: 8rem 5% 3rem;
+            }
+            .project-hero-meta {
+                gap: 1.5rem;
+            }
+            .project-content {
+                padding: 4rem 5%;
+            }
+            .project-image-grid.cols-2,
+            .project-image-grid.cols-3,
+            .project-image-grid.cols-4 {
+                grid-template-columns: 1fr;
+            }
+            .project-nav {
+                grid-template-columns: 1fr;
+            }
+            .project-nav-item:first-child {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .project-nav-item.next .project-nav-label,
+            .project-nav-item.next .project-nav-title,
+            .project-nav-item.next .project-nav-tag {
+                text-align: left;
+                justify-content: flex-start;
+            }
+        }
+
+        /* ============================================ */
+        /* --- LIGHTBOX --- */
+        /* ============================================ */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+        }
+        .lightbox.active {
             display: flex;
             opacity: 1;
         }
 
-        .modal-content {
-            background: var(--bg-card);
-            border-radius: 24px;
-            max-width: 1200px;
-            width: 100%;
-            max-height: 90vh;
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            transform: scale(0.92) translateY(20px);
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1) translateY(0);
-            animation: modalEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes modalEnter {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(40px);
-                filter: blur(10px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
-        }
-
-        .modal-overlay.closing .modal-content {
-            animation: modalExit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
-        }
-
-        @keyframes modalExit {
-            from {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.92) translateY(30px);
-                filter: blur(8px);
-            }
-        }
-
-        .modal-image {
+        .lightbox-image-wrapper {
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            overflow: hidden;
-            background: #000;
+            animation: lightboxZoom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .modal-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            min-height: 500px;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-image img {
-            animation: imageReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-        }
-
-        @keyframes imageReveal {
+        @keyframes lightboxZoom {
             from {
                 opacity: 0;
-                transform: scale(1.08);
-                filter: blur(6px);
+                transform: scale(0.92);
+                filter: blur(8px);
             }
             to {
                 opacity: 1;
@@ -951,176 +1184,114 @@
             }
         }
 
-        .modal-details {
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            overflow-y: auto;
+        .lightbox-image-wrapper img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
-        .modal-close {
+        .lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
+            top: 2rem;
+            right: 2rem;
+            width: 52px;
+            height: 52px;
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50%;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 10;
             backdrop-filter: blur(10px);
+            font-family: var(--font-main);
         }
-
-        .modal-close:hover {
+        .lightbox-close:hover {
             background: var(--accent);
             border-color: var(--accent);
             transform: rotate(90deg) scale(1.1);
         }
 
-        .modal-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .modal-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1.1;
-            margin-bottom: 1rem;
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
             color: white;
-        }
-
-        .modal-subtitle {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .modal-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .modal-client {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: rgba(255, 69, 0, 0.08);
-            border: 1px solid rgba(255, 69, 0, 0.2);
-            border-radius: 16px;
-            margin-bottom: 2rem;
-        }
-
-        .modal-client-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .modal-client-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-client-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            margin-bottom: 0.3rem;
-        }
-
-        .modal-client-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .modal-description {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .modal-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .modal-meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .modal-meta-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-        }
-
-        .modal-meta-value {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .modal-cta {
-            background: var(--accent);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 1.6rem;
             cursor: pointer;
-            border: none;
-            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+            backdrop-filter: blur(10px);
             font-family: var(--font-main);
         }
-
-        .modal-cta:hover {
-            background: white;
-            color: var(--accent);
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4);
+        .lightbox-nav:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .lightbox-nav.prev { left: 2rem; }
+        .lightbox-nav.next { right: 2rem; }
+        .lightbox-nav:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+        .lightbox-nav:disabled:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-50%);
         }
 
+        .lightbox-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.06);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-close {
+                top: 1rem;
+                right: 1rem;
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+            .lightbox-nav.prev { left: 1rem; }
+            .lightbox-nav.next { right: 1rem; }
+            .lightbox-counter {
+                bottom: 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* --- SERVICES SHOWCASE --- */
         .services-showcase {
             padding: 8rem 5% 6rem;
             max-width: 1600px;
@@ -1383,9 +1554,7 @@
         }
         .tech-tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
 
-        /* ============================================ */
-        /* --- PAGE SERVICE DÉDIÉE (avec forfaits) --- */
-        /* ============================================ */
+        /* --- PAGE SERVICE DÉDIÉE --- */
         .service-detail-page {
             padding-top: 12rem;
             padding-bottom: 6rem;
@@ -2238,13 +2407,9 @@
             .logo-img { height: 75px; }
             header.scrolled .logo-img { height: 55px; }
             .hero-watermark { width: 120%; }
-            .coverflow-container { height: 420px; }
-            .coverflow-card { width: 260px; height: 380px; margin-left: -130px; margin-top: -190px; }
-            .card-main-title { font-size: 1.6rem; }
-            .modal-content { grid-template-columns: 1fr; max-height: 95vh; overflow-y: auto; }
-            .modal-image img { min-height: 300px; }
-            .modal-details { padding: 2rem; }
-            .modal-title { font-size: 2rem; }
+            .coverflow-container { height: 360px; }
+            .coverflow-card { width: 360px; height: 270px; margin-left: -180px; margin-top: -135px; }
+            .card-main-title { font-size: 1.5rem; }
         }
         @media (max-width: 768px) {
             header { padding: 1rem 5%; }
@@ -2275,15 +2440,13 @@
             .editorial-card { width: 100%; height: 350px; }
             .hero-watermark { width: 140%; opacity: 0.06; }
             .gallery-section { padding: 4rem 5%; }
-            .coverflow-container { height: 360px; }
-            .coverflow-card { width: 220px; height: 320px; margin-left: -110px; margin-top: -160px; }
+            .coverflow-container { height: 300px; }
+            .coverflow-card { width: 320px; height: 240px; margin-left: -160px; margin-top: -120px; }
             .card-main-title { font-size: 1.3rem; }
+            .card-main-subtitle { font-size: 0.85rem; }
             .nav-arrow { width: 40px; height: 40px; font-size: 1rem; }
             .nav-arrow.prev { left: 1%; }
             .nav-arrow.next { right: 1%; }
-            .modal-details { padding: 1.5rem; }
-            .modal-title { font-size: 1.6rem; }
-            .modal-meta { grid-template-columns: 1fr; }
             
             .about-skills, .timeline, .about-parcours-header {
                 padding: 0 1.5rem;
@@ -2357,7 +2520,6 @@
             </div>
 
             <div class="hero-content">
-                <p class="hero-intro">Agence Créative Digitale</p>
                 <h1>
                     <span>Créateur</span>
                     <span>Digital</span>
@@ -3223,6 +3385,36 @@
         </section>
     </div>
 
+    <!-- ================= PAGE PROJET (style Behance) ================= -->
+    <div id="project-detail" class="page">
+        <section class="project-detail-page">
+            <div class="project-hero">
+                <div class="project-hero-bg" id="projectHeroBg"></div>
+                <div class="project-hero-content">
+                    <a class="project-back-link" onclick="navigateTo('home')">← Retour aux réalisations</a>
+                    <h1 class="project-hero-title" id="projectDetailTitle">Titre du projet</h1>
+                    <p class="project-hero-subtitle" id="projectDetailSubtitle">Sous-titre</p>
+                    <div class="project-hero-meta">
+                        <div class="project-hero-meta-item">
+                            <span class="project-hero-meta-label">Client</span>
+                            <span class="project-hero-meta-value" id="projectDetailClient">Nom</span>
+                        </div>
+                        <div class="project-hero-meta-item">
+                            <span class="project-hero-meta-label">Année</span>
+                            <span class="project-hero-meta-value" id="projectDetailYear">2024</span>
+                        </div>
+                        <div class="project-hero-meta-item">
+                            <span class="project-hero-meta-label">Service</span>
+                            <span class="project-hero-meta-value" id="projectDetailService">Affiche</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="projectDetailContent"></div>
+        </section>
+    </div>
+
     <!-- Footer -->
     <footer>
         <p>© 2026 OLY. Tous droits réservés.</p>
@@ -3235,45 +3427,15 @@
         </div>
     </footer>
 
-    <!-- MODALE -->
-    <div class="modal-overlay" id="projectModal">
-        <div class="modal-content">
-            <div class="modal-image">
-                <button class="modal-close" onclick="closeModal()">✕</button>
-                <img id="modalImage" src="" alt="Projet">
-            </div>
-            <div class="modal-details">
-                <span class="modal-tag" id="modalTag">Catégorie</span>
-                <h2 class="modal-title" id="modalTitle">Titre du projet</h2>
-                <p class="modal-subtitle" id="modalSubtitle">Sous-titre</p>
-                <div class="modal-divider"></div>
-
-                <div class="modal-client">
-                    <div class="modal-client-icon" id="modalClientIcon">C</div>
-                    <div class="modal-client-info">
-                        <span class="modal-client-label">Client</span>
-                        <span class="modal-client-name" id="modalClient">Nom de la société</span>
-                    </div>
-                </div>
-
-                <p class="modal-description" id="modalDescription">
-                    Description du projet.
-                </p>
-
-                <div class="modal-meta">
-                    <div class="modal-meta-item">
-                        <span class="modal-meta-label">Année</span>
-                        <span class="modal-meta-value" id="modalYear">2024</span>
-                    </div>
-                    <div class="modal-meta-item">
-                        <span class="modal-meta-label">Service</span>
-                        <span class="modal-meta-value" id="modalService">Affiche</span>
-                    </div>
-                </div>
-
-                <button class="modal-cta" onclick="navigateTo('contact'); closeModal();">Discuter d'un projet similaire ↗</button>
-            </div>
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">✕</button>
+        <button class="lightbox-nav prev" id="lightboxPrev" onclick="lightboxPrev()" aria-label="Image précédente">‹</button>
+        <div class="lightbox-image-wrapper">
+            <img id="lightboxImage" src="" alt="Image projet">
         </div>
+        <button class="lightbox-nav next" id="lightboxNext" onclick="lightboxNext()" aria-label="Image suivante">›</button>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
     </div>
 
     <script>
@@ -3334,39 +3496,200 @@
 
         document.querySelectorAll('.stat-number[data-count]').forEach(el => counterObserver.observe(el));
 
+        /* ============================================ */
+        /* --- DONNÉES PROJETS (système flexible) --- */
+        /* ============================================ */
         const galleryData = [
             {
                 image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop',
-                tag: 'Évasion',
-                title: 'Machu Picchu',
-                subtitle: 'Pérou • Aventure',
-                client: 'Andes Travel',
+                title: 'Aldas Sarl',
+                subtitle: 'Côte d Ivoire',
+                client: 'CEO Aldas',
                 clientIcon: 'A',
-                year: '2024',
-                service: 'Affiche & Identité',
-                description: 'Une affiche promotionnelle pour une agence de voyage spécialisée dans les treks andins. L\'objectif était de capturer la majesté des paysages tout en évoquant l\'aventure et le mystère.'
+                year: '2025',
+                service: 'Identité, Affiche',
+                content: [
+                    {
+                        type: 'text',
+                        intro: true,
+                        paragraphs: [
+                            "Andes Travel souhaitait une campagne visuelle capable de capturer la majesté des paysages andins tout en évoquant l'aventure et le mystère. L'objectif était de se démarquer des visuels touristiques classiques."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Affiche principale — format A1'
+                    },
+                    {
+                        type: 'text',
+                        title: 'Le défi',
+                        paragraphs: [
+                            "Le marché du voyage d'aventure est saturé de visuels similaires : paysages grandioses, randonneurs souriants, couleurs saturées. Andes Travel voulait quelque chose de plus brut, de plus authentique.",
+                            "Il fallait également que l'affiche fonctionne aussi bien en format print (A1, A2) qu'en digital (Instagram, bannières web), tout en conservant sa force évocatrice."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1531065208531-4036c0dba3ca?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 3,
+                        caption: 'Déclinaisons digitales et print'
+                    },
+                    {
+                        type: 'text',
+                        title: "L'approche",
+                        paragraphs: [
+                            "J'ai choisi de travailler sur un contraste fort entre la silhouette imposante du Machu Picchu et une palette de couleurs froides évoquant l'altitude et la brume matinale.",
+                            "La typographie, volontairement sobre et condensée, laisse toute la place à l'image. Le logo du client a été redessiné pour l'occasion afin de s'intégrer harmonieusement dans la composition."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 2,
+                        caption: 'Détails typographiques et textures'
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1469521669194-babb45599def?q=80&w=2071&auto=format&fit=crop',
+                        caption: 'Mockup final dans son contexte'
+                    }
+                ],
+                credits: {
+                    role: 'Direction artistique & Design',
+                    tools: 'Photoshop, Illustrator, Figma',
+                    duration: '3 semaines',
+                    team: 'Projet solo'
+                }
             },
             {
                 image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
-                tag: 'Nature',
-                title: 'Montagnes',
-                subtitle: 'Alpes • Randonnée',
-                client: 'Alpine Club',
+                title: 'Sarah-Anne VALERE',
+                subtitle: 'France',
+                client: 'Entreprise Sarah-Anne VALERE',
                 clientIcon: 'A',
-                year: '2023',
-                service: 'Affiche & Motion',
-                description: 'Affiche réalisée pour un club de randonnée alpin. Le design met en valeur la puissance minérale des sommets et invite à l\'exploration.'
+                year: '2024',
+                service: 'Identité, Affiche',
+                content: [
+                    {
+                        type: 'text',
+                        intro: true,
+                        paragraphs: [
+                            "Alpine Club voulait rajeunir son image et attirer une nouvelle génération de randonneurs. L'affiche devait évoquer à la fois la puissance minérale des sommets et la convivialité du club."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Affiche finale — composition principale'
+                    },
+                    {
+                        type: 'text',
+                        title: 'Le défi',
+                        paragraphs: [
+                            "Le club existait depuis 40 ans et souffrait d'une image vieillissante. Il fallait moderniser la communication sans perdre l'âme et l'authenticité de la communauté.",
+                            "L'affiche devait servir de support à la fois pour l'impression (affichage urbain) et pour une animation motion design destinée aux réseaux sociaux."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 2,
+                        caption: 'Storyboard de l\'animation'
+                    },
+                    {
+                        type: 'text',
+                        title: "L'approche",
+                        paragraphs: [
+                            "J'ai opté pour une composition en couches, jouant sur la profondeur et la brume alpine. Les tons bleus et gris créent une atmosphère à la fois sereine et impressionnante.",
+                            "L'animation décline cette composition en un léger mouvement de nuages et un zoom progressif sur le sommet, soulignant la sensation d'ascension."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Version finale avec habillage graphique'
+                    }
+                ],
+                credits: {
+                    role: 'Design & Motion',
+                    tools: 'Illustrator, After Effects',
+                    duration: '4 semaines',
+                    team: 'Projet solo'
+                }
             },
             {
                 image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2070&auto=format&fit=crop',
-                tag: 'Paysage',
-                title: 'Vallée Brumeuse',
-                subtitle: 'Écosse • Mystère',
-                client: 'Highland Tours',
+                title: 'Divine Restauration',
+                subtitle: 'Cote d Ivoire',
+                client: 'Mme Camara',
                 clientIcon: 'H',
-                year: '2024',
-                service: 'Affiche Cinéma',
-                description: 'Création d\'une affiche pour une campagne touristique sur les Highlands écossais. L\'ambiance brumeuse et mystérieuse évoque le romantisme des paysages du Nord.'
+                year: '2022',
+                service: 'Identité, Affiche',
+                content: [
+                    {
+                        type: 'text',
+                        intro: true,
+                        paragraphs: [
+                            "Highland Tours souhaitait une identité visuelle à mi-chemin entre le cinéma et le tourisme d'exception. L'affiche devait évoquer le romantisme mystérieux des paysages écossais."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Affiche principale — édition limitée'
+                    },
+                    {
+                        type: 'text',
+                        title: 'Le défi',
+                        paragraphs: [
+                            "L'Écosse est une destination très concurrentielle sur le marché du tourisme haut de gamme. Il fallait trouver un angle visuel qui se démarque des clichés (châteaux, lochs, kilts).",
+                            "Le client voulait également que l'affiche puisse servir de base à une déclinaison en série limitée vendue comme poster collector."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 3
+                    },
+                    {
+                        type: 'text',
+                        title: "L'approche",
+                        paragraphs: [
+                            "Inspiré par les affiches de cinéma des années 70, j'ai construit une composition dramatique autour d'une vallée brumeuse, jouant sur les contrastes et les textures granuleuses.",
+                            "La typographie, à la fois élégante et mystérieuse, rappelle les polices utilisées dans les thrillers. Le résultat est une affiche qui raconte une histoire avant même qu'on ne lise le texte."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 2,
+                        caption: 'Déclinaisons réseaux sociaux'
+                    }
+                ],
+                credits: {
+                    role: 'Direction artistique',
+                    tools: 'Photoshop, Lightroom',
+                    duration: '3 semaines',
+                    team: 'Projet solo'
+                }
             },
             {
                 image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop',
@@ -3377,7 +3700,58 @@
                 clientIcon: 'K',
                 year: '2023',
                 service: 'Affiche & Édition',
-                description: 'Affiche pour une agence de voyage néo-zélandaise. La composition minimaliste met en valeur la pureté des eaux turquoise et des paysages préservés.'
+                content: [
+                    {
+                        type: 'text',
+                        intro: true,
+                        paragraphs: [
+                            "Kiwi Adventures propose des voyages immersifs en Nouvelle-Zélande. L'affiche devait refléter la pureté des paysages préservés et l'esprit d'évasion absolue."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Affiche finale'
+                    },
+                    {
+                        type: 'text',
+                        title: 'Le défi',
+                        paragraphs: [
+                            "Le client voulait éviter les clichés du tourisme de masse et mettre en avant une expérience plus intimiste, presque méditative.",
+                            "Il fallait également que l'affiche puisse être déclinée en carte postale et en affiche grand format sans perdre de sa force."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1469521669194-babb45599def?q=80&w=2071&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1531065208531-4036c0dba3ca?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 2,
+                        caption: 'Déclinaisons multiples'
+                    },
+                    {
+                        type: 'text',
+                        title: "L'approche",
+                        paragraphs: [
+                            "La composition minimaliste met en valeur la pureté des eaux turquoise et la douceur des paysages. Un travail minutieux sur les couleurs et les reflets a permis de restituer la magie du lieu.",
+                            "La typographie discrète et aérée renforce la sensation de calme et d'espace."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Mockup en situation'
+                    }
+                ],
+                credits: {
+                    role: 'Design graphique',
+                    tools: 'Photoshop, InDesign',
+                    duration: '2 semaines',
+                    team: 'Projet solo'
+                }
             },
             {
                 image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop',
@@ -3388,7 +3762,60 @@
                 clientIcon: 'E',
                 year: '2024',
                 service: 'Affiche & Branding',
-                description: 'Affiche pour une expédition en Patagonie. Le contraste entre la neige et le ciel dramatique crée une sensation d\'immensité et de dépassement de soi.'
+                content: [
+                    {
+                        type: 'text',
+                        intro: true,
+                        paragraphs: [
+                            "Extreme Expeditions organise des expéditions en milieu extrême. L'affiche devait incarner le dépassement de soi et la beauté brute des paysages patagons."
+                        ]
+                    },
+                    {
+                        type: 'full',
+                        src: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop',
+                        caption: 'Affiche principale'
+                    },
+                    {
+                        type: 'text',
+                        title: 'Le défi',
+                        paragraphs: [
+                            "Le client souhaitait une identité visuelle forte, capable de s'appliquer à l'ensemble de ses supports de communication : affiches, site web, vêtements techniques.",
+                            "Il fallait également que l'affiche transmette une sensation d'immensité et de dépassement de soi, valeurs centrales de la marque."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1531065208531-4036c0dba3ca?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 3,
+                        caption: 'Applications multi-supports'
+                    },
+                    {
+                        type: 'text',
+                        title: "L'approche",
+                        paragraphs: [
+                            "J'ai travaillé sur un contraste saisissant entre la neige immaculée et un ciel dramatique, créant une tension visuelle qui invite à l'aventure.",
+                            "Le système graphique développé permet de décliner l'identité sur tous les supports, avec une cohérence forte et immédiatement reconnaissable."
+                        ]
+                    },
+                    {
+                        type: 'grid',
+                        images: [
+                            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2070&auto=format&fit=crop'
+                        ],
+                        columns: 2
+                    }
+                ],
+                credits: {
+                    role: 'Direction artistique & Branding',
+                    tools: 'Illustrator, Photoshop',
+                    duration: '5 semaines',
+                    team: 'Projet solo'
+                }
             }
         ];
 
@@ -3403,7 +3830,6 @@
             galleryData.forEach((item, index) => {
                 let offset = index - currentIndex;
                 
-                // Gestion du wrap circulaire
                 const half = Math.floor(galleryData.length / 2);
                 if (offset > half) offset -= galleryData.length;
                 if (offset < -half) offset += galleryData.length;
@@ -3414,7 +3840,6 @@
                 const absOffset = Math.abs(offset);
                 const sign = Math.sign(offset);
                 
-                // Calcul des transforms
                 let translateX, rotateY, scale, opacity, blur, zIndex;
                 
                 if (offset === 0) {
@@ -3425,7 +3850,7 @@
                     blur = 0;
                     zIndex = 10;
                 } else {
-                    translateX = sign * (200 + (absOffset - 1) * 90);
+                    translateX = sign * (280 + (absOffset - 1) * 110);
                     rotateY = -sign * (30 + (absOffset - 1) * 8);
                     scale = 1 - absOffset * 0.12;
                     opacity = Math.max(0, 1 - absOffset * 0.22);
@@ -3442,7 +3867,6 @@
                     <img src="${item.image}" alt="${item.title}">
                     <div class="card-overlay">
                         <div class="center-content">
-                            <span class="card-tag">${item.tag}</span>
                             <h3 class="card-main-title">${item.title}</h3>
                             <p class="card-main-subtitle">${item.subtitle}</p>
                         </div>
@@ -3451,7 +3875,7 @@
 
                 card.addEventListener('click', () => {
                     if (offset === 0) {
-                        openModal(item);
+                        openProjectDetail(index);
                     } else {
                         currentIndex = index;
                         renderGallery();
@@ -3496,68 +3920,218 @@
             updateDots();
         }
 
-        const modal = document.getElementById('projectModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalTag = document.getElementById('modalTag');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalSubtitle = document.getElementById('modalSubtitle');
-        const modalClient = document.getElementById('modalClient');
-        const modalClientIcon = document.getElementById('modalClientIcon');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalYear = document.getElementById('modalYear');
-        const modalService = document.getElementById('modalService');
+        /* ============================================ */
+        /* --- PAGE PROJET DÉDIÉE (système flexible) --- */
+        /* ============================================ */
+        let currentProjectIndex = 0;
+        let lightboxImages = [];
+        let lightboxCurrentIndex = 0;
 
-        function openModal(item) {
-            modal.classList.remove('closing');
-            
-            modalImage.src = item.image;
-            modalImage.alt = item.title;
-            modalTag.textContent = item.tag;
-            modalTitle.textContent = item.title;
-            modalSubtitle.textContent = item.subtitle;
-            modalClient.textContent = item.client;
-            modalClientIcon.textContent = item.clientIcon;
-            modalDescription.textContent = item.description;
-            modalYear.textContent = item.year;
-            modalService.textContent = item.service;
+        function openProjectDetail(index) {
+            currentProjectIndex = index;
+            const item = galleryData[index];
 
-            modal.classList.add('active');
+            // Hero
+            document.getElementById('projectHeroBg').style.backgroundImage = `url('${item.image}')`;
+            document.getElementById('projectDetailTitle').textContent = item.title;
+            document.getElementById('projectDetailSubtitle').textContent = item.subtitle;
+            document.getElementById('projectDetailClient').textContent = item.client;
+            document.getElementById('projectDetailYear').textContent = item.year;
+            document.getElementById('projectDetailService').textContent = item.service;
+
+            // Collecter toutes les images du projet pour la lightbox
+            lightboxImages = [];
+            item.content.forEach(block => {
+                if (block.type === 'full' && block.src) {
+                    lightboxImages.push(block.src);
+                } else if (block.type === 'grid' && block.images) {
+                    block.images.forEach(img => lightboxImages.push(img));
+                }
+            });
+
+            // Contenu éditorial
+            const contentEl = document.getElementById('projectDetailContent');
+            let html = '';
+
+            item.content.forEach(block => {
+                if (block.type === 'text') {
+                    html += `
+                        <div class="project-content">
+                            <div class="project-content-section ${block.intro ? 'intro' : ''}">
+                                ${block.title ? `<h2>${block.title}</h2>` : ''}
+                                ${block.paragraphs.map(p => `<p>${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (block.type === 'full') {
+                    const imgIndex = lightboxImages.indexOf(block.src);
+                    html += `
+                        <div class="project-fullwidth-image">
+                            <img src="${block.src}" alt="${item.title}" data-lightbox-index="${imgIndex}">
+                            ${block.caption ? `<p class="project-image-caption">${block.caption}</p>` : ''}
+                        </div>
+                    `;
+                } else if (block.type === 'grid') {
+                    const cols = block.columns || (block.images.length === 1 ? 1 : block.images.length === 2 ? 2 : block.images.length === 3 ? 3 : 2);
+                    html += `
+                        <div class="project-image-grid cols-${cols}">
+                            ${block.images.map(img => {
+                                const imgIndex = lightboxImages.indexOf(img);
+                                return `
+                                    <div class="project-image-grid-item">
+                                        <img src="${img}" alt="${item.title}" data-lightbox-index="${imgIndex}">
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        ${block.caption ? `<p class="project-image-caption" style="margin-top:-4rem; margin-bottom:5rem;">${block.caption}</p>` : ''}
+                    `;
+                }
+            });
+
+            // Crédits
+            if (item.credits) {
+                html += `
+                    <div class="project-credits">
+                        <div class="project-credit-item">
+                            <span class="project-credit-label">Rôle</span>
+                            <span class="project-credit-value">${item.credits.role}</span>
+                        </div>
+                        <div class="project-credit-item">
+                            <span class="project-credit-label">Outils</span>
+                            <span class="project-credit-value">${item.credits.tools}</span>
+                        </div>
+                        <div class="project-credit-item">
+                            <span class="project-credit-label">Durée</span>
+                            <span class="project-credit-value">${item.credits.duration}</span>
+                        </div>
+                        <div class="project-credit-item">
+                            <span class="project-credit-label">Équipe</span>
+                            <span class="project-credit-value">${item.credits.team}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Navigation projet précédent / suivant
+            const prevIndex = (index - 1 + galleryData.length) % galleryData.length;
+            const nextIndex = (index + 1) % galleryData.length;
+            const prevItem = galleryData[prevIndex];
+            const nextItem = galleryData[nextIndex];
+
+            html += `
+                <div class="project-nav">
+                    <div class="project-nav-item prev" onclick="openProjectDetail(${prevIndex})">
+                        <span class="project-nav-label">← Projet précédent</span>
+                        <span class="project-nav-title">${prevItem.title}</span>
+                        <span class="project-nav-tag">${prevItem.tag}</span>
+                    </div>
+                    <div class="project-nav-item next" onclick="openProjectDetail(${nextIndex})">
+                        <span class="project-nav-label">Projet suivant →</span>
+                        <span class="project-nav-title">${nextItem.title}</span>
+                        <span class="project-nav-tag">${nextItem.tag}</span>
+                    </div>
+                </div>
+            `;
+
+            contentEl.innerHTML = html;
+
+            // Attacher les clics lightbox aux images
+            contentEl.querySelectorAll('img[data-lightbox-index]').forEach(img => {
+                img.addEventListener('click', () => {
+                    const idx = parseInt(img.dataset.lightboxIndex, 10);
+                    openLightbox(idx);
+                });
+            });
+
+            // Si on est déjà sur la page projet, on scrolle en haut avec un effet doux
+            // Sinon on déclenche la navigation normale (qui scrolle déjà en haut)
+            if (currentPageId === 'project-detail') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                navigateTo('project-detail');
+            }
+        }
+
+        /* ============================================ */
+        /* --- LIGHTBOX --- */
+        /* ============================================ */
+        function openLightbox(index) {
+            lightboxCurrentIndex = index;
+            updateLightboxImage();
+            document.getElementById('lightbox').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
-            void modal.offsetWidth;
         }
 
-        function closeModal() {
-            modal.classList.add('closing');
-            
-            setTimeout(() => {
-                modal.classList.remove('active', 'closing');
-                document.body.style.overflow = 'auto';
-            }, 400);
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
+        function updateLightboxImage() {
+            const img = document.getElementById('lightboxImage');
+            img.src = lightboxImages[lightboxCurrentIndex];
+            
+            const wrapper = img.parentElement;
+            wrapper.style.animation = 'none';
+            void wrapper.offsetWidth;
+            wrapper.style.animation = 'lightboxZoom 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
 
+            document.getElementById('lightboxCounter').textContent = `${lightboxCurrentIndex + 1} / ${lightboxImages.length}`;
+
+            document.getElementById('lightboxPrev').disabled = lightboxCurrentIndex === 0;
+            document.getElementById('lightboxNext').disabled = lightboxCurrentIndex === lightboxImages.length - 1;
+        }
+
+        function lightboxPrev() {
+            if (lightboxCurrentIndex > 0) {
+                lightboxCurrentIndex--;
+                updateLightboxImage();
+            }
+        }
+
+        function lightboxNext() {
+            if (lightboxCurrentIndex < lightboxImages.length - 1) {
+                lightboxCurrentIndex++;
+                updateLightboxImage();
+            }
+        }
+
+        /* ============================================ */
+        /* --- NAVIGATION & RACCOURCIS --- */
+        /* ============================================ */
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key === 'ArrowRight') nextSlide();
+            const lightbox = document.getElementById('lightbox');
+            const isLightboxOpen = lightbox.classList.contains('active');
+
+            if (e.key === 'Escape') {
+                if (isLightboxOpen) closeLightbox();
+            }
+            if (e.key === 'ArrowLeft') {
+                if (isLightboxOpen) lightboxPrev();
+                else if (currentPageId === 'home') prevSlide();
+            }
+            if (e.key === 'ArrowRight') {
+                if (isLightboxOpen) lightboxNext();
+                else if (currentPageId === 'home') nextSlide();
+            }
         });
 
-        createDots();
-        renderGallery();
+        // Fermer la lightbox au clic sur le fond
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
 
-        const coverflowContainer = document.querySelector('.coverflow-container');
-        let touchStartX = 0;
-        coverflowContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
+        // Support tactile sur la lightbox (swipe)
+        let lightboxTouchStartX = 0;
+        document.getElementById('lightbox').addEventListener('touchstart', (e) => {
+            lightboxTouchStartX = e.touches[0].clientX;
         }, { passive: true });
-        coverflowContainer.addEventListener('touchend', (e) => {
-            const delta = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(delta) > 40) {
-                delta < 0 ? nextSlide() : prevSlide();
+        document.getElementById('lightbox').addEventListener('touchend', (e) => {
+            const delta = e.changedTouches[0].clientX - lightboxTouchStartX;
+            if (Math.abs(delta) > 50) {
+                if (delta < 0) lightboxNext();
+                else lightboxPrev();
             }
         }, { passive: true });
 
@@ -3611,20 +4185,33 @@
             if (pageId === 'contact') {
                 navContact.classList.add('active');
                 navContact.style.color = 'var(--accent)';
-                const mNav = document.getElementById('mnav-contact');
-                if (mNav) mNav.classList.add('active');
             } else {
                 navContact.classList.remove('active');
                 navContact.style.color = '#ffffff';
-                const mNavLink = document.getElementById('mnav-' + pageId);
-                if (mNavLink) mNavLink.classList.add('active');
             }
 
-            window.location.hash = pageId;
+            const mNavLink = document.getElementById('mnav-' + pageId);
+            if (mNavLink) mNavLink.classList.add('active');
+
+            // On ne met pas le hash dans l'URL pour la page projet (elle dépend d'un état dynamique)
+            if (pageId === 'project-detail') {
+                history.replaceState(null, '', window.location.pathname);
+            } else {
+                window.location.hash = pageId;
+            }
         }
 
         window.addEventListener('load', () => {
             const hash = window.location.hash.replace('#', '');
+            
+            // Si on arrive directement sur #project-detail (sans passer par openProjectDetail),
+            // on redirige vers la page d'accueil car le contenu serait vide
+            if (hash === 'project-detail') {
+                history.replaceState(null, '', window.location.pathname);
+                navigateTo('home');
+                return;
+            }
+            
             if (hash && document.getElementById(hash)) {
                 navigateTo(hash);
             } else {
@@ -3638,6 +4225,9 @@
                 navigateTo(hash);
             }
         });
+
+        createDots();
+        renderGallery();
     </script>
 
 </body>
