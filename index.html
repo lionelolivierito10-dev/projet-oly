@@ -649,6 +649,9 @@
             margin: 0 auto;
         }
 
+        /* ============================================ */
+        /* --- COVERFLOW CORRIGÉ --- */
+        /* ============================================ */
         .coverflow-container {
             position: relative;
             height: 520px;
@@ -682,12 +685,11 @@
             overflow: hidden;
             cursor: pointer;
             transition: 
-                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            backface-visibility: hidden;
             will-change: transform, opacity, filter;
             transform-origin: center center;
         }
@@ -839,22 +841,7 @@
             box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        @keyframes cardEnter {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.92);
-                filter: blur(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        .coverflow-card.entering {
-            animation: cardEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        /* ============================================ */
 
         .modal-overlay {
             position: fixed;
@@ -3416,46 +3403,40 @@
             galleryData.forEach((item, index) => {
                 let offset = index - currentIndex;
                 
-                if (offset > Math.floor(galleryData.length / 2)) {
-                    offset -= galleryData.length;
-                }
-                if (offset < -Math.floor(galleryData.length / 2)) {
-                    offset += galleryData.length;
-                }
+                // Gestion du wrap circulaire
+                const half = Math.floor(galleryData.length / 2);
+                if (offset > half) offset -= galleryData.length;
+                if (offset < -half) offset += galleryData.length;
 
                 const card = document.createElement('div');
                 card.className = 'coverflow-card' + (offset === 0 ? ' active' : '');
                 
+                const absOffset = Math.abs(offset);
+                const sign = Math.sign(offset);
+                
+                // Calcul des transforms
+                let translateX, rotateY, scale, opacity, blur, zIndex;
+                
                 if (offset === 0) {
-                    card.style.transform = `translateX(0) translateZ(0) rotateY(0deg) scale(1)`;
-                    card.style.zIndex = 10;
-                    card.style.opacity = 1;
-                    card.style.filter = 'blur(0px) brightness(1)';
+                    translateX = 0;
+                    rotateY = 0;
+                    scale = 1;
+                    opacity = 1;
+                    blur = 0;
+                    zIndex = 10;
+                } else {
+                    translateX = sign * (200 + (absOffset - 1) * 90);
+                    rotateY = -sign * (30 + (absOffset - 1) * 8);
+                    scale = 1 - absOffset * 0.12;
+                    opacity = Math.max(0, 1 - absOffset * 0.22);
+                    blur = absOffset * 1.5;
+                    zIndex = 10 - absOffset;
                 }
-                else if (offset > 0) {
-                    const translateX = 220 + (Math.abs(offset) - 1) * 100;
-                    const rotateY = -35 - (Math.abs(offset) - 1) * 10;
-                    const scale = 1 - Math.abs(offset) * 0.15;
-                    const opacity = 1 - Math.abs(offset) * 0.25;
-                    const blur = Math.abs(offset) * 1.5;
-                    
-                    card.style.transform = `translateX(${translateX}px) translateZ(-${Math.abs(offset) * 100}px) rotateY(${rotateY}deg) scale(${scale})`;
-                    card.style.zIndex = 10 - Math.abs(offset);
-                    card.style.opacity = opacity;
-                    card.style.filter = `blur(${blur}px) brightness(0.6)`;
-                }
-                else {
-                    const translateX = -(220 + (Math.abs(offset) - 1) * 100);
-                    const rotateY = 35 + (Math.abs(offset) - 1) * 10;
-                    const scale = 1 - Math.abs(offset) * 0.15;
-                    const opacity = 1 - Math.abs(offset) * 0.25;
-                    const blur = Math.abs(offset) * 1.5;
-                    
-                    card.style.transform = `translateX(${translateX}px) translateZ(-${Math.abs(offset) * 100}px) rotateY(${rotateY}deg) scale(${scale})`;
-                    card.style.zIndex = 10 - Math.abs(offset);
-                    card.style.opacity = opacity;
-                    card.style.filter = `blur(${blur}px) brightness(0.6)`;
-                }
+
+                card.style.transform = `translateX(${translateX}px) translateZ(${-absOffset * 80}px) rotateY(${rotateY}deg) scale(${scale})`;
+                card.style.zIndex = zIndex;
+                card.style.opacity = opacity;
+                card.style.filter = `blur(${blur}px) brightness(${offset === 0 ? 1 : 0.6})`;
 
                 card.innerHTML = `
                     <img src="${item.image}" alt="${item.title}">
@@ -3468,22 +3449,13 @@
                     </div>
                 `;
 
-                card.classList.add('entering');
-                card.style.animationDelay = `${Math.abs(offset) * 0.05}s`;
-
                 card.addEventListener('click', () => {
                     if (offset === 0) {
                         openModal(item);
                     } else {
-                        card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-                        card.style.opacity = '0.5';
-                        card.style.filter = 'blur(4px)';
-                        
-                        setTimeout(() => {
-                            currentIndex = index;
-                            renderGallery();
-                            updateDots();
-                        }, 150);
+                        currentIndex = index;
+                        renderGallery();
+                        updateDots();
                     }
                 });
 
@@ -3513,33 +3485,15 @@
         }
 
         function nextSlide() {
-            const activeCard = track.querySelector('.coverflow-card.active');
-            if (activeCard) {
-                activeCard.style.transition = 'all 0.3s ease';
-                activeCard.style.opacity = '0.7';
-                activeCard.style.filter = 'blur(2px)';
-            }
-            
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % galleryData.length;
-                renderGallery();
-                updateDots();
-            }, 100);
+            currentIndex = (currentIndex + 1) % galleryData.length;
+            renderGallery();
+            updateDots();
         }
 
         function prevSlide() {
-            const activeCard = track.querySelector('.coverflow-card.active');
-            if (activeCard) {
-                activeCard.style.transition = 'all 0.3s ease';
-                activeCard.style.opacity = '0.7';
-                activeCard.style.filter = 'blur(2px)';
-            }
-            
-            setTimeout(() => {
-                currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
-                renderGallery();
-                updateDots();
-            }, 100);
+            currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+            renderGallery();
+            updateDots();
         }
 
         const modal = document.getElementById('projectModal');
