@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OLY | Créateur Digital — Web, Design & Motion</title>
     <meta name="description" content="OLY, créateur digital indépendant : développement web, applications, identité visuelle et montage vidéo. Découvrez mes projets et ma méthode de travail.">
-    <meta name="theme-color" content="#050505">
+    <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="5.png">
 
     <meta property="og:type" content="website">
@@ -18,17 +18,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #050505;
-            --bg-card: #111111;
-            --text-main: #ffffff;
-            --text-muted: #888888;
+            --bg-dark: #ffffff;
+            --bg-card: #f4f2f0;
+            --ink: #0a0a0a;
+            --text-main: #0a0a0a;
+            --text-muted: #6b6b6b;
             --accent: #ff4500;
             --accent-glow: rgba(255, 69, 0, 0.4);
-            --gradient-hero: linear-gradient(135deg, #ff2a00 0%, #4a0d00 100%);
+            --gradient-hero: linear-gradient(135deg, #ffffff 0%, #ffb08a 100%);
             --font-main: 'Space Grotesk', sans-serif;
+            --font-handwritten: 'Caveat', cursive;
         }
 
         * {
@@ -106,7 +108,6 @@
             .reveal { opacity: 1; transform: none; }
         }
 
-        /* --- ACCESSIBILITÉ : focus clavier visible --- */
         a:focus-visible,
         button:focus-visible,
         [role="button"]:focus-visible,
@@ -436,164 +437,110 @@
             padding-bottom: 6rem;
         }
 
+        /* --- HERO avec dégradé blanc vers la section réalisations --- */
         .hero {
             position: relative;
             min-height: 100vh;
-            background: var(--gradient-hero);
+            background: #ffffff;
             padding: 14rem 5% 4rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: linear-gradient(
+                to bottom,
+                #ffffff 0%,
+                #ffffff 55%,
+                #fafafa 75%,
+                #f5f3f1 90%,
+                #ffffff 100%
+            );
         }
 
+        .hero-terrain {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        .hero-terrain canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Overlay de fondu blanc PAR-DESSUS le canvas WebGL */
+        .hero-terrain::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.5) 20%,
+                rgba(255, 255, 255, 0.1) 40%,
+                transparent 55%,
+                transparent 70%,
+                rgba(255, 255, 255, 0.35) 82%,
+                rgba(255, 255, 255, 0.75) 92%,
+                #ffffff 100%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Deuxième voile pour renforcer le fondu tout en bas */
         .hero::after {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop') center/cover;
-            opacity: 0.15;
-            mix-blend-mode: overlay;
-            z-index: 0;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -20%; right: -10%;
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .hero-watermark {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150%;
-            max-width: 1800px;
-            opacity: 0.08;
-            z-index: 1;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 40%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 40%,
+                rgba(255, 255, 255, 0.85) 75%,
+                #ffffff 100%
+            );
             pointer-events: none;
-            filter: brightness(2);
+            z-index: 2;
         }
-        .hero-watermark img { width: 100%; height: auto; object-fit: contain; }
 
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            text-align: center;
         }
 
-        .hero h1 {
-            font-size: clamp(4rem, 11vw, 9rem);
-            line-height: 0.85;
-            font-weight: 700;
-            letter-spacing: -5px;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
+        /* Le texte du hero est maintenant vide */
+        .hero-placeholder {
+            display: none;
         }
 
-        .hero h1 span {
-            display: block;
-            opacity: 0;
-            transform: translateY(60px);
-            animation: slideUp 1.2s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .hero h1 span:nth-child(2) { animation-delay: 0.2s; }
-
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-
-        .hero-description {
-            max-width: 500px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            opacity: 0;
-            animation: fadeIn 1s 0.6s forwards;
-        }
-
-        @keyframes fadeIn { to { opacity: 1; } }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            animation: fadeIn 1s 1.5s forwards;
-        }
-        .scroll-indicator span {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.7;
-        }
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: rgba(255,255,255,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        .scroll-line::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 50%;
-            background: white;
-            animation: scrollDown 2s infinite;
-        }
-        @keyframes scrollDown {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(200%); }
-        }
-
-        .stats-section {
-            padding: 4rem 5%;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .stat-item { text-align: center; }
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        /* --- GALERIE / RÉALISATIONS --- */
         .gallery-section {
             padding: 8rem 5% 6rem;
             max-width: 1600px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(
+                to bottom,
+                #ffffff 0%,
+                #ffffff 20%,
+                #ffffff 100%
+            );
         }
 
         .gallery-header {
@@ -632,7 +579,6 @@
         }
         .coverflow-container.dragging { cursor: grabbing; }
 
-        /* Lueur derrière la carte centrale */
         .coverflow-container::before {
             content: '';
             position: absolute;
@@ -656,8 +602,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Pas de preserve-3d : combiné à un translateZ négatif, il rend les cartes
-               latérales non cliquables. La perspective est dans le transform de chaque carte. */
             transform-style: flat;
         }
 
@@ -672,15 +616,12 @@
             border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
-            /* Position, échelle et opacité sont animées image par image en JS :
-               aucune transition CSS ici, sinon elles se battraient avec l'animation. */
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             will-change: transform, opacity;
             backface-visibility: hidden;
             transform-origin: center center;
         }
 
-        /* Voile sombre : plus la carte est loin du centre, plus il est opaque */
         .coverflow-card .card-dim {
             position: absolute;
             inset: 0;
@@ -699,39 +640,7 @@
         }
 
         .coverflow-card .card-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Le titre apparaît progressivement quand la carte approche du centre (piloté par JS) */
-        .coverflow-card .center-content {
-            will-change: opacity, transform;
-        }
-
-
-        .card-main-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            color: white;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-main-subtitle {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.8);
-            font-weight: 400;
+            display: none;
         }
 
         .coverflow-card.active::before {
@@ -755,6 +664,25 @@
         }
 
         .coverflow-card.active:hover::before { opacity: 1; }
+
+        /* Agrandissement plein écran au clic sur une réalisation */
+        .card-expander {
+            position: fixed;
+            z-index: 100000;
+            overflow: hidden;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            will-change: top, left, width, height, border-radius;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+        .card-expander::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.1) 60%, transparent);
+        }
 
         .nav-arrow {
             position: absolute;
@@ -813,9 +741,7 @@
             box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        /* ============================================ */
-        /* --- PAGE PROJET DÉDIÉE (style Behance) --- */
-        /* ============================================ */
+        /* --- PAGE PROJET DÉDIÉE --- */
         .project-detail-page {
             padding-top: 0;
             padding-bottom: 0;
@@ -824,10 +750,10 @@
 
         .project-hero {
             position: relative;
-            min-height: 60vh; /* Réduit de 70vh à 60vh */
+            min-height: 60vh;
             display: flex;
             align-items: flex-end;
-            padding: 10rem 5% 3rem; /* Padding ajusté */
+            padding: 10rem 5% 3rem;
             overflow: hidden;
             background: var(--bg-card);
         }
@@ -837,7 +763,7 @@
             inset: 0;
             background-size: cover;
             background-position: center;
-            filter: brightness(0.45) blur(1px); /* Moins sombre et moins flou */
+            filter: brightness(0.45) blur(1px);
             transform: scale(1.05);
             z-index: 0;
         }
@@ -846,7 +772,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.5) 50%, rgba(5,5,5,0.2) 100%); /* Dégradé plus léger */
+            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.5) 50%, rgba(5,5,5,0.2) 100%);
             z-index: 1;
         }
 
@@ -874,7 +800,7 @@
         .project-back-link:hover { color: var(--accent); transform: translateX(-4px); }
 
         .project-hero-title {
-            font-size: clamp(2.5rem, 6vw, 5rem); /* Taille réduite */
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 700;
             letter-spacing: -3px;
             line-height: 1;
@@ -1075,9 +1001,7 @@
             .project-nav-item.next .project-nav-tag { text-align: left; justify-content: flex-start; }
         }
 
-        /* ============================================ */
         /* --- LIGHTBOX --- */
-        /* ============================================ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -1200,7 +1124,7 @@
             .lightbox-counter { bottom: 1rem; font-size: 0.75rem; }
         }
 
-        /* --- SERVICES SHOWCASE (Cartes sans lettres) --- */
+        /* --- SERVICES SHOWCASE --- */
         .services-showcase {
             padding: 8rem 5% 6rem;
             max-width: 1600px;
@@ -1275,9 +1199,6 @@
             background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
             z-index: 1;
         }
-        
-        /* Badge retiré */
-        /* .card-badge { ... } */
 
         .card-content {
             position: absolute;
@@ -1289,9 +1210,6 @@
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .editorial-card:hover .card-content { transform: translateY(0); }
-        
-        /* Catégorie retirée */
-        /* .card-category { ... } */
 
         .card-title {
             font-size: 1.6rem;
@@ -1323,13 +1241,14 @@
             .editorial-card:nth-child(4) { transform: rotate(0deg) translateY(0); }
         }
 
+        /* --- MARQUEE sans fond noir --- */
         .marquee-section {
             padding: 4rem 0;
-            background: #0a0a0a;
+            background: transparent;
             overflow: hidden;
             white-space: nowrap;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .marquee-track {
             display: inline-block;
@@ -1345,6 +1264,7 @@
             opacity: 0.3;
             transition: opacity 0.3s;
             letter-spacing: -1px;
+            color: var(--ink);
         }
         .marquee-item:hover { opacity: 1; color: var(--accent); }
         @keyframes marquee {
@@ -1409,15 +1329,10 @@
         }
         .service-row:hover .service-arrow { opacity: 1; transform: translateX(0); }
         
-        /* ============================================ */
-        /* --- SERVICES : pile de cartes qui s'éventaille --- */
-        /* Au repos : une pile. Au survol : elle s'ouvre en  */
-        /* éventail 3D. Une carte survolée se soulève et     */
-        /* affiche sa pastille.                              */
-        /* ============================================ */
+        /* --- SERVICES : pile de cartes --- */
         .svc-deck {
-            --s: 1;                       /* échelle globale, ajustée en JS selon la largeur */
-            --mid: 1.5;                   /* (nombre de cartes - 1) / 2, ajusté en JS */
+            --s: 1;
+            --mid: 1.5;
             --w-closed: calc(420px * var(--s));
             --h-closed: calc(300px * var(--s));
             --w-open:   calc(250px * var(--s));
@@ -1426,13 +1341,11 @@
             position: relative;
             width: 100%;
             max-width: 900px;
-            height: calc(540px * var(--s));   /* marge en haut : la carte soulevée et sa pastille y montent */
+            height: calc(540px * var(--s));
             margin: 0 auto;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Boîte « physique » de la carte : elle porte la position dans la pile / l'éventail.
-           C'est elle qui reçoit le survol, donc elle ne bouge jamais quand la carte se soulève. */
         .svc-card {
             position: absolute;
             left: 50%;
@@ -1469,7 +1382,6 @@
                        scale(1);
         }
 
-        /* Partie qui se soulève au survol */
         .svc-inner {
             position: absolute;
             inset: 0;
@@ -1507,7 +1419,6 @@
             pointer-events: none;
         }
 
-        /* Pastille blanche inclinée */
         .svc-label {
             --lx: -50%;
             position: absolute;
@@ -1532,7 +1443,6 @@
             transition: opacity 0.35s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .svc-label b { color: var(--accent); font-weight: 700; margin-right: 0.45em; }
-        /* Première et dernière carte : la pastille reste dans la zone visible */
         .svc-card:first-child .svc-label { left: 0; --lx: 0px; }
         .svc-card:last-child  .svc-label { left: auto; right: 0; --lx: 0px; }
         .svc-deck.is-open .svc-card.hot .svc-label {
@@ -1543,16 +1453,7 @@
         .services-showcase .showcase-header { margin-bottom: 1rem; }
 
         .svc-hint {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-        }
-        .svc-hint .hint-touch { display: none; }
-        @media (hover: none) {
-            .svc-hint .hint-hover { display: none; }
-            .svc-hint .hint-touch { display: inline; }
+            display: none !important;
         }
 
         .service-details {
@@ -1582,7 +1483,7 @@
         }
         .tech-tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 15px rgba(255, 69, 0, 0.2); }
 
-        /* --- PAGE SERVICE DÉDIÉE (Style Projet) --- */
+        /* --- PAGE SERVICE DÉDIÉE --- */
         .service-detail-page {
             padding-top: 0;
             padding-bottom: 0;
@@ -1591,10 +1492,10 @@
 
         .service-hero {
             position: relative;
-            min-height: 60vh; /* Réduit de 70vh à 60vh */
+            min-height: 60vh;
             display: flex;
             align-items: flex-end;
-            padding: 10rem 5% 3rem; /* Padding ajusté */
+            padding: 10rem 5% 3rem;
             overflow: hidden;
             background: var(--bg-card);
         }
@@ -1604,7 +1505,7 @@
             inset: 0;
             background-size: cover;
             background-position: center;
-            filter: brightness(0.45) blur(1px); /* Moins sombre et moins flou */
+            filter: brightness(0.45) blur(1px);
             transform: scale(1.05);
             z-index: 0;
         }
@@ -1613,7 +1514,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.5) 50%, rgba(5,5,5,0.2) 100%); /* Dégradé plus léger */
+            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.5) 50%, rgba(5,5,5,0.2) 100%);
             z-index: 1;
         }
 
@@ -1641,7 +1542,7 @@
         .service-back-link:hover { color: var(--accent); transform: translateX(-4px); }
 
         .service-hero-title {
-            font-size: clamp(2.5rem, 6vw, 5rem); /* Taille réduite */
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 700;
             letter-spacing: -3px;
             line-height: 1;
@@ -1747,7 +1648,7 @@
         .feature-item h4 { font-size: 1.1rem; margin-bottom: 0.6rem; }
         .feature-item p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
-        /* Pricing Section (reste identique mais dans un contexte éditorial) */
+        /* Pricing Section */
         .pricing-section {
             max-width: 1400px;
             margin: 0 auto;
@@ -1974,16 +1875,212 @@
         }
         .pricing-note a:hover { border-color: var(--accent); }
 
+        /* --- CTA SUR-MESURE (Web App / SaaS) --- */
+        .pricing-custom-cta {
+            margin-top: 3rem;
+            padding: 3rem 3rem;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(30,15,8,0.95) 0%, rgba(15,8,5,0.95) 100%);
+            border: 1px solid rgba(255, 69, 0, 0.25);
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-custom-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        .pricing-custom-cta:hover {
+            border-color: rgba(255, 69, 0, 0.5);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 69, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .pricing-custom-content .pricing-tier {
+            margin-bottom: 0.8rem;
+        }
+        .pricing-custom-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .pricing-custom-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .pricing-custom-action {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1.5rem;
+            text-align: right;
+        }
+        .pricing-custom-price {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+        }
+        .pricing-from {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+        .pricing-custom-amount {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pricing-custom-action .pricing-cta {
+            width: auto;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.3);
+        }
+        .pricing-custom-action .pricing-cta:hover {
+            background: white;
+            color: var(--accent);
+            border-color: white;
+            box-shadow: 0 15px 40px rgba(255, 69, 0, 0.5);
+        }
+
+        /* --- MENTION DEVIS + PAIEMENT --- */
+        .pricing-note p {
+            margin-bottom: 0.5rem;
+        }
+        .pricing-note p:last-child {
+            margin-bottom: 0;
+        }
+        .pricing-payment {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .pricing-payment strong {
+            color: var(--accent);
+        }
+
+        /* --- FORFAIT MAINTENANCE --- */
+        .pricing-maintenance {
+            margin-top: 2rem;
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pricing-maintenance:hover {
+            border-color: rgba(255, 69, 0, 0.35);
+            background: rgba(255, 69, 0, 0.03);
+            transform: translateY(-3px);
+        }
+        .maintenance-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), #ffffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.3);
+            flex-shrink: 0;
+        }
+        .maintenance-content h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: white;
+        }
+        .maintenance-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .maintenance-price {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.1rem;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .maintenance-from {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+        .maintenance-amount {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+        .maintenance-amount small {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-left: 0.2rem;
+        }
+
         @media (max-width: 1024px) {
             .service-features-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; gap: 2rem; }
             .pricing-card.featured { transform: translateY(0); }
         }
 
+        @media (max-width: 900px) {
+            .pricing-custom-cta {
+                grid-template-columns: 1fr;
+                padding: 2.5rem 2rem;
+                gap: 2rem;
+            }
+            .pricing-custom-action {
+                align-items: flex-start;
+                text-align: left;
+            }
+            .pricing-custom-price {
+                align-items: flex-start;
+            }
+        }
+
         @media (max-width: 600px) {
             .pricing-card { padding: 2.5rem 1.8rem; }
             .pricing-card.featured::after { top: 1.2rem; right: -3.2rem; font-size: 0.6rem; padding: 0.35rem 3.2rem; }
             .pricing-amount { font-size: 2.4rem; }
+            .pricing-custom-cta { padding: 2rem 1.5rem; }
+            .pricing-custom-content h3 { font-size: 1.6rem; }
+            .pricing-custom-amount { font-size: 2rem; }
+            .pricing-maintenance {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+                padding: 1.5rem;
+                text-align: left;
+            }
+            .maintenance-price {
+                align-items: flex-start;
+                text-align: left;
+            }
         }
 
         .projects-header {
@@ -2152,8 +2249,6 @@
             .project-tile-content { padding: 1.5rem; }
         }
 
-        /* Section Témoignages retirée */
-
         .about-hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -2234,9 +2329,7 @@
 
         .about-parcours-header { padding: 0 5%; margin-bottom: 2rem; }
 
-        /* ============================================ */
-        /* --- PAGE MÉTHODE (Refonte modernisée) --- */
-        /* ============================================ */
+        /* --- PAGE MÉTHODE --- */
         .process-container {
             position: relative;
             max-width: 1200px;
@@ -2244,7 +2337,6 @@
             padding: 4rem 0;
         }
 
-        /* Ligne verticale orange */
         .process-line {
             position: absolute;
             left: 50%;
@@ -2279,7 +2371,6 @@
         }
         .process-step:last-child { margin-bottom: 0; }
 
-        /* Numéro géant en arrière-plan */
         .process-num-bg {
             position: absolute;
             top: 50%;
@@ -2293,7 +2384,6 @@
             line-height: 1;
         }
 
-        /* Contenu texte */
         .process-content {
             padding: 2rem;
             background: rgba(18, 20, 28, 0.6);
@@ -2345,7 +2435,6 @@
             background: rgba(255, 69, 0, 0.05);
         }
 
-        /* Point central */
         .process-dot {
             display: flex;
             justify-content: center;
@@ -2381,7 +2470,6 @@
             background: var(--bg-dark);
         }
 
-        /* Alternance gauche/droite */
         .process-step:nth-child(even) .process-content {
             grid-column: 1 / 2;
             text-align: right;
@@ -2532,13 +2620,10 @@
         .social-links a:hover { color: var(--accent); }
 
         @media (max-width: 1024px) {
-            .hero h1 { font-size: 15vw; }
             .contact-container { grid-template-columns: 1fr; gap: 3rem; }
             .service-details { grid-template-columns: 1fr; gap: 2rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; }
             .logo-img { height: 75px; }
             header.scrolled .logo-img { height: 55px; }
-            .hero-watermark { width: 120%; }
             .coverflow-container { height: 360px; }
             .coverflow-card { width: 360px; height: 270px; margin-left: -180px; margin-top: -135px; }
             .card-main-title { font-size: 1.5rem; }
@@ -2566,18 +2651,16 @@
             .drawer-inner { padding: 1.5rem 1.8rem; }
 
             .hero { padding-top: 9rem; border-radius: 0 0 30px 30px; }
+            .hero-placeholder { font-size: clamp(1.5rem, 6vw, 2.5rem); }
             .service-row { padding: 2rem 0; }
             .service-row:hover { padding-left: 0; padding-right: 0; }
             .service-title { font-size: 1.5rem; }
             footer { flex-direction: column; text-align: center; align-items: center; }
             footer p { width: 100%; text-align: center; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-            .stat-number { font-size: 2rem; }
             .cards-container { flex-direction: column; align-items: center; }
             .editorial-card { width: 100%; height: 350px; margin: 0 auto; }
             .card-content { text-align: center; }
             .card-arrow { justify-content: center; width: 100%; }
-            .hero-watermark { width: 140%; opacity: 0.06; }
             .gallery-section { padding: 4rem 5%; }
             .coverflow-container { height: 300px; }
             .coverflow-card { width: 320px; height: 240px; margin-left: -160px; margin-top: -120px; }
@@ -2595,6 +2678,257 @@
             .project-tile-desc { display: none; }
             .project-tile-arrow { opacity: 1; transform: translate(0, 0) scale(0.85); }
         }
+
+        /* ============================================================ */
+        /* THÈME CLAIR — blanc / orange / noir                           */
+        /* ============================================================ */
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.82);
+            border-bottom: 1px solid rgba(255, 69, 0, 0.25);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        .menu-toggle span { background: var(--ink); }
+        .btn-contact { color: var(--ink); }
+        .route-bar { background: linear-gradient(90deg, var(--accent), var(--ink)); }
+
+        .mobile-drawer { background: rgba(255, 255, 255, 0.98); box-shadow: 30px 0 80px rgba(0, 0, 0, 0.12); }
+        .drawer-logo { color: var(--ink); }
+        .drawer-close { background: rgba(0, 0, 0, 0.04); color: var(--ink); }
+        .drawer-close:hover { color: #fff; }
+        .drawer-nav a { color: var(--ink); }
+        .drawer-socials a { color: var(--ink); }
+        .drawer-overlay { background: rgba(0, 0, 0, 0.35); }
+
+        .hero { background: #ffffff; }
+        .hero-terrain { background: #ffffff; }
+        .hero-placeholder {
+            color: var(--ink);
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.95), 0 0 60px rgba(255, 255, 255, 0.8);
+        }
+
+        .coverflow-container::before {
+            background: radial-gradient(ellipse at center, rgba(255, 69, 0, 0.32) 0%, rgba(255, 69, 0, 0.12) 40%, transparent 72%);
+        }
+        .coverflow-card { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3); }
+        .nav-arrow {
+            background: #ffffff;
+            color: var(--ink);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        .nav-arrow:hover { color: #fff; }
+        .dot { background: rgba(0, 0, 0, 0.15); }
+        .dot:not(.active):hover { background: rgba(0, 0, 0, 0.35); }
+
+        .marquee-item { color: #ffffff; }
+
+        .project-hero-bg, .service-hero-bg { filter: brightness(1) blur(1px); }
+        .project-hero::after, .service-hero::after {
+            background: linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0.82) 30%, rgba(255,255,255,0.35) 65%, rgba(255,255,255,0.65) 100%);
+        }
+        .project-hero-title, .service-hero-title,
+        .project-hero-meta-value, .service-hero-meta-value,
+        .project-content-section h2, .service-content-section h2,
+        .project-credit-value, .project-nav-title,
+        .pricing-name, .process-content h3, .maintenance-content h4 { color: var(--ink); }
+        .project-hero-subtitle, .service-hero-subtitle,
+        .project-back-link, .service-back-link,
+        .project-content-section p, .service-content-section p { color: #333333; }
+        .project-content-section.intro p, .service-content-section.intro p { color: #111111; }
+
+        .feature-item { border: 1px solid rgba(0, 0, 0, 0.1); background: #fafafa; }
+        .service-details { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+        .svc-face { box-shadow: 0 28px 55px rgba(0, 0, 0, 0.35); }
+        .svc-face img { transition: filter 0.8s ease; }
+        .svc-label { background: var(--ink); color: #ffffff; }
+
+        .pricing-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f7f5f3 100%);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+        .pricing-card::before { background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent); }
+        .pricing-card:hover { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.14), 0 0 50px rgba(255, 69, 0, 0.12); }
+        .pricing-card.featured { background: linear-gradient(180deg, #fff3ec 0%, #ffffff 100%); }
+        .pricing-amount { background-image: linear-gradient(135deg, #0a0a0a 0%, #555555 100%); }
+        .pricing-card.featured .pricing-amount { background-image: linear-gradient(135deg, #0a0a0a 0%, var(--accent) 100%); }
+        .pricing-price { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        .pricing-features li { color: #222222; }
+        .pricing-cta { border: 1px solid rgba(0, 0, 0, 0.25); color: var(--ink); }
+        .pricing-cta:hover { background: var(--ink); color: #ffffff; border-color: var(--ink); }
+        .pricing-card.featured .pricing-cta { color: #ffffff; }
+        .pricing-card.featured .pricing-cta:hover { background: var(--ink); color: #ffffff; border-color: var(--ink); }
+        .pricing-custom-action .pricing-cta { color: #ffffff; }
+        .pricing-note { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+        .pricing-maintenance { background: #fafafa; border: 1px solid rgba(0, 0, 0, 0.1); }
+
+        .project-tile { border: 1px solid rgba(0, 0, 0, 0.08); }
+        .skill-block li { border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: #222222; }
+        .timeline { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+        .timeline-item { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        .process-line { background: rgba(255, 69, 0, 0.15); }
+        .process-num-bg { color: rgba(255, 69, 0, 0.07); }
+        .process-content { background: rgba(255, 255, 255, 0.92); }
+        footer { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
+        /* ============================================================ */
+        /* EXPERTISES : carte de face à gauche, texte à droite           */
+        /* ============================================================ */
+        .svc-stage {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            isolation: isolate;
+        }
+        .svc-stage .svc-deck { max-width: none; }
+        .svc-deck {
+            --fx: 0px;
+            --w-focus: calc(300px * var(--s));
+            --h-focus: calc(400px * var(--s));
+        }
+
+        .svc-deck.is-focus .svc-card {
+            width: var(--w-focus);
+            height: var(--h-focus);
+            margin-left: calc(var(--w-focus) / -2);
+            margin-top: calc(var(--h-focus) / -2);
+            transform: perspective(1100px)
+                       translate3d(calc(var(--fx) + var(--r) * 34px * var(--s)),
+                                   calc(var(--r) * -26px * var(--s)),
+                                   calc(var(--r) * -70px))
+                       rotateY(0deg)
+                       scale(calc(1 - var(--r) * 0.06));
+        }
+        .svc-deck.is-focus .svc-card.is-front { cursor: default; }
+        .svc-deck.is-focus .svc-card:not(.is-front) { cursor: pointer; }
+        .svc-deck.is-focus .svc-card:not(.is-front):hover .svc-inner { transform: translate3d(10px, -8px, 0); }
+        .svc-deck.is-focus .svc-face img { filter: brightness(calc(1 - var(--r, 0) * 0.2)); }
+        .svc-deck.is-focus .svc-card.is-front .svc-face {
+            box-shadow: 0 34px 70px rgba(0, 0, 0, 0.4), 0 0 0 2px var(--accent);
+        }
+        .svc-deck.is-focus .svc-label { opacity: 0; }
+
+        .svc-detail {
+            position: absolute;
+            top: 57%;
+            left: 54%;
+            width: 42%;
+            transform: translateY(-50%);
+            z-index: 5;
+            pointer-events: none;
+        }
+        .svc-stage.has-detail .svc-detail { pointer-events: auto; }
+
+        .svc-d-close {
+            position: absolute;
+            top: -3.2rem;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+            color: var(--ink);
+            font-size: 0.95rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .svc-stage.has-detail .svc-d-close { opacity: 1; transition-delay: 0.6s, 0s, 0s, 0s; }
+        .svc-d-close:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(90deg); }
+
+        .svc-d-item {
+            opacity: 0;
+            transform: translateX(-140px) scale(0.96);
+            transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .svc-d-body.in .svc-d-item {
+            opacity: 1;
+            transform: none;
+            transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: calc(0.35s + var(--k, 0) * 0.09s);
+        }
+
+        .svc-d-num {
+            display: none !important;
+        }
+        .svc-d-title {
+            font-size: clamp(2rem, 3.4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        .svc-d-text {
+            font-size: 1.02rem;
+            line-height: 1.7;
+            color: #444444;
+            margin-bottom: 1.2rem;
+        }
+        .svc-d-points { list-style: none; margin-bottom: 1.4rem; }
+        .svc-d-points li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: #555555;
+        }
+        .svc-d-points li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 8px;
+            height: 8px;
+            margin-top: 0.5em;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .svc-d-points b { color: var(--ink); font-weight: 600; }
+        .svc-d-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-bottom: 1.6rem; }
+        .svc-d-meta span {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+        .svc-d-meta strong { font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+        .svc-d-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.9rem 1.7rem;
+            border-radius: 50px;
+            background: var(--ink);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .svc-d-cta:hover { background: var(--accent); box-shadow: 0 10px 30px rgba(255, 69, 0, 0.35); }
+
+        @media (max-width: 900px) {
+            .svc-detail {
+                position: static;
+                width: 100%;
+                transform: none;
+                height: 0;
+                overflow: hidden;
+            }
+            .svc-stage.has-detail .svc-detail { height: auto; overflow: visible; padding-top: 1.5rem; }
+            .svc-d-item { transform: translateY(-60px) scale(0.96); }
+            .svc-d-close { top: 0; }
+            .svc-d-title { font-size: 2.2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .svc-d-item, .svc-d-body.in .svc-d-item, .svc-d-close { transition: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -2605,7 +2939,7 @@
         </button>
 
         <div class="logo" onclick="navigateTo('home')">
-            <img src="logo.png" alt="OLY Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:white;font-weight:700;font-size:2.5rem;letter-spacing:-2px;\'>OLY<span style=\'color:var(--accent);\'>.</span></span>';">
+            <img src="logo1.png" alt="OLY Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:white;font-weight:700;font-size:2.5rem;letter-spacing:-2px;\'>OLY<span style=\'color:var(--accent);\'>.</span></span>';">
         </div>
 
         <div class="header-right">
@@ -2620,14 +2954,12 @@
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-inner">
             <div class="drawer-header">
-                <img src="logo.png" alt="OLY Logo" class="drawer-logo-img" onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin', '<span class=\'drawer-logo\'>OLY<span style=\'color: var(--accent);\'>.</span></span>');">
+                <img src="logo1.png" alt="OLY Logo" class="drawer-logo-img" onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin', '<span class=\'drawer-logo\'>OLY<span style=\'color: var(--accent);\'>.</span></span>');">
                 <button class="drawer-close" onclick="toggleMenu(false)" aria-label="Fermer le menu">✕</button>
             </div>
             <nav class="drawer-nav">
                 <a onclick="navigateTo('home')" id="mnav-home">Accueil</a>
                 <a onclick="navigateTo('about')" id="mnav-about">À propos</a>
-                <!-- MODIFICATION : "Services" supprimé -->
-                <!-- MODIFICATION : "Projets" supprimé -->
                 <a onclick="navigateTo('process')" id="mnav-process">Méthode</a>
             </nav>
             <div class="mobile-drawer-footer">
@@ -2643,52 +2975,17 @@
 
     <!-- ================= PAGE ACCUEIL ================= -->
     <div id="home" class="page active">
-        <section class="hero">
-            <div class="hero-watermark">
-                <img src="logo.png" alt="OLY Watermark" onerror="this.style.display='none';">
+        <section class="hero" id="heroSection">
+            <div class="hero-terrain" id="heroTerrain" aria-hidden="true">
+                <canvas id="heroTerrainCanvas"></canvas>
             </div>
-
-            <div class="hero-content">
-                <h1>
-                    <span>Créateur</span>
-                    <span>Digital</span>
-                </h1>
-                <p class="hero-description">
-                    Je conçois des expériences numériques qui allient design audacieux, code performant et narration visuelle. De l'idée à la mise en ligne.
-                </p>
-            </div>
-
-            <div class="scroll-indicator">
-                <span>Scroll</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
-
-        <section class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-item reveal">
-                    <div class="stat-number" data-count="50" data-suffix="+">0</div>
-                    <div class="stat-label">Projets réalisés</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-number" data-count="30" data-suffix="+">0</div>
-                    <div class="stat-label">Clients satisfaits</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-number" data-count="5" data-suffix="">0</div>
-                    <div class="stat-label">Années d'expérience</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-number" data-count="100" data-suffix="%">0</div>
-                    <div class="stat-label">Passion & Dévouement</div>
-                </div>
-            </div>
+            <!-- Texte du hero supprimé -->
         </section>
 
         <section class="gallery-section">
             <div class="gallery-header">
                 <h2>Mes <span>Réalisations</span></h2>
-                <p>Cliquez sur une affiche pour découvrir la société cliente.</p>
+                <p>Si mon travail vous plait <br>GLOIRE A DIEU !</br></p>
             </div>
 
             <div class="coverflow-container">
@@ -2707,32 +3004,31 @@
             </div>
 
             <div class="svc-deck reveal-fade">
-                <a onclick="navigateTo('service-web')" class="svc-card" style="--i:0; z-index:4;" aria-label="Développement Web">
+                <a data-service="service-web" class="svc-card" role="button" tabindex="0" style="--i:0; z-index:4;" aria-label="Développement Web">
                     <div class="svc-inner">
                         <span class="svc-label">Développement Web</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-app')" class="svc-card" style="--i:1; z-index:3;" aria-label="Applications Mobiles">
+                <a data-service="service-app" class="svc-card" role="button" tabindex="0" style="--i:1; z-index:3;" aria-label="Applications Mobiles">
                     <div class="svc-inner">
                         <span class="svc-label">Applications Mobiles</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-graphic')" class="svc-card" style="--i:2; z-index:2;" aria-label="Graphisme & Motion">
+                <a data-service="service-graphic" class="svc-card" role="button" tabindex="0" style="--i:2; z-index:2;" aria-label="Graphisme & Motion">
                     <div class="svc-inner">
                         <span class="svc-label">Graphisme & Motion</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-video')" class="svc-card" style="--i:3; z-index:1;" aria-label="Montage Vidéo">
+                <a data-service="service-video" class="svc-card" role="button" tabindex="0" style="--i:3; z-index:1;" aria-label="Montage Vidéo">
                     <div class="svc-inner">
                         <span class="svc-label">Montage Vidéo</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
             </div>
-            <p class="svc-hint"><span class="hint-hover">Survolez la pile pour découvrir mes expertises</span><span class="hint-touch">Touchez la pile pour découvrir mes expertises</span></p>
         </section>
 
         <section class="marquee-section">
@@ -2747,11 +3043,9 @@
                 <div class="marquee-item">◯ Ultra Blox</div>
             </div>
         </section>
-
-        <!-- Section Témoignages supprimée -->
     </div>
 
-    <!-- ================= PAGE SERVICE : DÉVELOPPEMENT WEB (Style Projet) ================= -->
+    <!-- ================= PAGE SERVICE : DÉVELOPPEMENT WEB ================= -->
     <div id="service-web" class="page">
         <section class="service-detail-page">
             <div class="service-hero">
@@ -2816,28 +3110,29 @@
                         <h3 class="pricing-name">Landing<br>Page</h3>
                         <p class="pricing-description">Idéal pour lancer un produit ou une campagne marketing rapidement.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">450</span>
+                            <span class="pricing-amount">750</span>
                             <span class="pricing-currency">€</span>
                             <span class="pricing-period">/ projet</span>
                         </div>
                         <ul class="pricing-features">
                             <li>Page unique optimisée</li>
-                            <li>Design responsive</li>
+                            <li>Design responsive premium</li>
                             <li>Formulaire de contact</li>
-                            <li>SEO de base</li>
+                            <li>Animations légères</li>
+                            <li>SEO de base (balises, OG)</li>
                             <li>Hébergement 1 an inclus</li>
                             <li class="disabled">Blog / CMS</li>
-                            <li class="disabled">Animations avancées</li>
+                            <li class="disabled">Multilingue</li>
                         </ul>
                         <button class="pricing-cta" onclick="navigateTo('contact')">Démarrer ↗</button>
                     </div>
 
                     <div class="pricing-card featured reveal">
                         <span class="pricing-tier">Le plus choisi</span>
-                        <h3 class="pricing-name">Site<br>Vitrine</h3>
-                        <p class="pricing-description">Pour les marques et entreprises qui veulent une présence web complète.</p>
+                        <h3 class="pricing-name">Site<br>Vitrine Premium</h3>
+                        <p class="pricing-description">Pour les marques et entreprises qui veulent une présence web complète et soignée.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">1 200</span>
+                            <span class="pricing-amount">2 200</span>
                             <span class="pricing-currency">€</span>
                             <span class="pricing-period">/ projet</span>
                         </div>
@@ -2845,43 +3140,76 @@
                             <li>Jusqu'à 8 pages</li>
                             <li>Design sur-mesure</li>
                             <li>Animations & interactions</li>
-                            <li>CMS (blog, projets)</li>
-                            <li>SEO avancé</li>
+                            <li>Blog / CMS léger</li>
+                            <li>SEO avancé (JSON-LD, sitemap)</li>
                             <li>Analytics configuré</li>
                             <li>Hébergement 1 an inclus</li>
+                            <li>2 révisions incluses</li>
                         </ul>
                         <button class="pricing-cta" onclick="navigateTo('contact')">Démarrer ↗</button>
                     </div>
 
                     <div class="pricing-card reveal">
                         <span class="pricing-tier">Sur-mesure</span>
-                        <h3 class="pricing-name">Web<br>App</h3>
-                        <p class="pricing-description">Plateformes SaaS, espaces membres, dashboards et applications métier.</p>
+                        <h3 class="pricing-name">Site<br>Premium+</h3>
+                        <p class="pricing-description">Réservation, panier, espace membre et fonctionnalités avancées.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">À partir de</span>
-                            <span class="pricing-currency" style="font-size:1.4rem;">3 500 €</span>
+                            <span class="pricing-amount">4 500</span>
+                            <span class="pricing-currency">€</span>
+                            <span class="pricing-period">/ projet</span>
                         </div>
                         <ul class="pricing-features">
-                            <li>Architecture full-stack</li>
-                            <li>Authentification & rôles</li>
-                            <li>Base de données</li>
-                            <li>API & intégrations</li>
-                            <li>Dashboard admin</li>
-                            <li>Tests automatisés</li>
-                            <li>Accompagnement continu</li>
+                            <li>Tout le forfait Vitrine Premium</li>
+                            <li>Panier / réservation en ligne</li>
+                            <li>Espace membre (login, dashboard)</li>
+                            <li>Base de données + backend</li>
+                            <li>Génération PDF (devis, récap)</li>
+                            <li>Newsletter intégrée (Brevo)</li>
+                            <li>Bannière cookies RGPD</li>
+                            <li>Multilingue complet</li>
+                            <li>Formation client (1-2h)</li>
+                            <li>3 mois de support inclus</li>
                         </ul>
-                        <button class="pricing-cta" onclick="navigateTo('contact')">Discuter ↗</button>
+                        <button class="pricing-cta" onclick="navigateTo('contact')">Démarrer ↗</button>
+                    </div>
+                </div>
+
+                <div class="pricing-custom-cta reveal">
+                    <div class="pricing-custom-content">
+                        <span class="pricing-tier">Sur-mesure</span>
+                        <h3>Web App / SaaS</h3>
+                        <p>Plateformes métier, espaces membres complexes, dashboards, applications SaaS. Architecture full-stack, authentification, API et intégrations tierces.</p>
+                    </div>
+                    <div class="pricing-custom-action">
+                        <div class="pricing-custom-price">
+                            <span class="pricing-from">À partir de</span>
+                            <span class="pricing-custom-amount">8 000 €</span>
+                        </div>
+                        <button class="pricing-cta" onclick="navigateTo('contact')">Discutons de votre projet ↗</button>
                     </div>
                 </div>
 
                 <div class="pricing-note reveal">
-                    Un besoin spécifique ? <a onclick="navigateTo('contact')">Discutons de votre projet</a> pour construire une offre adaptée.
+                    <p><strong>Tarifs indicatifs.</strong> Chaque projet fait l'objet d'un devis personnalisé selon le périmètre.</p>
+                    <p class="pricing-payment"><strong>Paiement échelonné :</strong> en 2 ou 3 fois possible (30 % / 40 % / 30 %).</p>
+                </div>
+
+                <div class="pricing-maintenance reveal">
+                    <div class="maintenance-icon">⚙️</div>
+                    <div class="maintenance-content">
+                        <h4>Maintenance &amp; évolution</h4>
+                        <p>Mises à jour, sauvegardes, sécurité, petites évolutions.</p>
+                    </div>
+                    <div class="maintenance-price">
+                        <span class="maintenance-from">à partir de</span>
+                        <span class="maintenance-amount">80 €<small>/mois</small></span>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ================= PAGE SERVICE : APPLICATIONS MOBILES (Style Projet) ================= -->
+    <!-- ================= PAGE SERVICE : APPLICATIONS MOBILES ================= -->
     <div id="service-app" class="page">
         <section class="service-detail-page">
             <div class="service-hero">
@@ -2937,7 +3265,7 @@
             <div class="pricing-section">
                 <div class="pricing-header reveal">
                     <h2>Choisissez votre <span>forfait</span></h2>
-                    <p>Des offres claires pour concrétiser votre idée d'application.</p>
+                    <p>Des offres claires pour concrétiser votre idée d'application, du prototype au produit fini.</p>
                 </div>
 
                 <div class="pricing-grid">
@@ -2946,16 +3274,17 @@
                         <h3 class="pricing-name">Prototype<br>Rapide</h3>
                         <p class="pricing-description">Pour valider votre concept auprès des utilisateurs avant d'investir davantage.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">2 500</span>
+                            <span class="pricing-amount">3 500</span>
                             <span class="pricing-currency">€</span>
                             <span class="pricing-period">/ projet</span>
                         </div>
                         <ul class="pricing-features">
-                            <li>Écrans principaux</li>
-                            <li>Design UI mobile</li>
-                            <li>Prototype interactif</li>
+                            <li>Écrans principaux (jusqu'à 8)</li>
+                            <li>Design UI mobile sur-mesure</li>
+                            <li>Prototype interactif Figma</li>
                             <li>1 plateforme (iOS ou Android)</li>
                             <li>Tests utilisateurs de base</li>
+                            <li>Documentation de passation</li>
                             <li class="disabled">Backend & API</li>
                             <li class="disabled">Publication store</li>
                         </ul>
@@ -2967,17 +3296,18 @@
                         <h3 class="pricing-name">App<br>Complète</h3>
                         <p class="pricing-description">Application fonctionnelle prête à être publiée sur les deux stores.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">6 500</span>
+                            <span class="pricing-amount">9 500</span>
                             <span class="pricing-currency">€</span>
                             <span class="pricing-period">/ projet</span>
                         </div>
                         <ul class="pricing-features">
                             <li>Jusqu'à 15 écrans</li>
-                            <li>iOS + Android</li>
-                            <li>Backend & API</li>
-                            <li>Authentification</li>
+                            <li>iOS + Android (cross-platform)</li>
+                            <li>Backend & API sécurisée</li>
+                            <li>Authentification & comptes</li>
                             <li>Notifications push</li>
-                            <li>Publication sur les stores</li>
+                            <li>Publication App Store & Play Store</li>
+                            <li>Analytics intégré</li>
                             <li>3 mois de support inclus</li>
                         </ul>
                         <button class="pricing-cta" onclick="navigateTo('contact')">Démarrer ↗</button>
@@ -2988,30 +3318,62 @@
                         <h3 class="pricing-name">App<br>Évolutive</h3>
                         <p class="pricing-description">Applications complexes avec fonctionnalités avancées et intégrations métier.</p>
                         <div class="pricing-price">
-                            <span class="pricing-amount">À partir de</span>
-                            <span class="pricing-currency" style="font-size:1.4rem;">15 000 €</span>
+                            <span class="pricing-amount">18 000</span>
+                            <span class="pricing-currency">€</span>
+                            <span class="pricing-period">/ projet</span>
                         </div>
                         <ul class="pricing-features">
+                            <li>Tout le forfait App Complète</li>
                             <li>Architecture scalable</li>
                             <li>Fonctionnalités sur-mesure</li>
-                            <li>Intégrations tierces</li>
-                            <li>Paiement in-app</li>
+                            <li>Intégrations tierces (paiement, CRM, ERP)</li>
+                            <li>Paiement in-app (Stripe, Mobile Money)</li>
                             <li>Mode hors-ligne</li>
                             <li>Tests automatisés</li>
-                            <li>Maintenance continue</li>
+                            <li>Dashboard admin</li>
+                            <li>Formation équipe (2h)</li>
+                            <li>6 mois de support inclus</li>
                         </ul>
-                        <button class="pricing-cta" onclick="navigateTo('contact')">Discuter ↗</button>
+                        <button class="pricing-cta" onclick="navigateTo('contact')">Démarrer ↗</button>
+                    </div>
+                </div>
+
+                <div class="pricing-custom-cta reveal">
+                    <div class="pricing-custom-content">
+                        <span class="pricing-tier">Sur-mesure</span>
+                        <h3>App Métier / SaaS Mobile</h3>
+                        <p>Applications métier complexes, plateformes SaaS mobile, solutions B2B avec gestion multi-utilisateurs, rôles, dashboards avancés et intégrations profondes.</p>
+                    </div>
+                    <div class="pricing-custom-action">
+                        <div class="pricing-custom-price">
+                            <span class="pricing-from">À partir de</span>
+                            <span class="pricing-custom-amount">30 000 €</span>
+                        </div>
+                        <button class="pricing-cta" onclick="navigateTo('contact')">Discutons de votre projet ↗</button>
                     </div>
                 </div>
 
                 <div class="pricing-note reveal">
-                    Votre app nécessite des fonctionnalités spécifiques ? <a onclick="navigateTo('contact')">Parlons-en</a>.
+                    <p><strong>Tarifs indicatifs.</strong> Chaque projet fait l'objet d'un devis personnalisé selon le périmètre.</p>
+                    <p class="pricing-payment"><strong>Paiement échelonné :</strong> en 3 fois possible (30 % / 40 % / 30 %).</p>
+                </div>
+
+                <div class="pricing-maintenance reveal">
+                    <div class="maintenance-icon">⚙️</div>
+                    <div class="maintenance-content">
+                        <h4>Maintenance &amp; évolution</h4>
+                        <p>Mises à jour OS, corrections, compatibilité stores, nouvelles fonctionnalités, monitoring.</p>
+                    </div>
+                    <div class="maintenance-price">
+                        <span class="maintenance-from">à partir de</span>
+                        <span class="maintenance-amount">150 €<small>/mois</small></span>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ================= PAGE SERVICE : GRAPHISME & MOTION (Style Projet) ================= -->
+    <!-- ================= PAGE SERVICE : GRAPHISME & MOTION ================= -->
     <div id="service-graphic" class="page">
         <section class="service-detail-page">
             <div class="service-hero">
@@ -3141,7 +3503,7 @@
         </section>
     </div>
 
-    <!-- ================= PAGE SERVICE : MONTAGE VIDÉO (Style Projet) ================= -->
+    <!-- ================= PAGE SERVICE : MONTAGE VIDÉO ================= -->
     <div id="service-video" class="page">
         <section class="service-detail-page">
             <div class="service-hero">
@@ -3337,7 +3699,7 @@
         </section>
     </div>
 
-    <!-- ================= PAGE PROCESSUS (MÉTHODE) - Modernisée ================= -->
+    <!-- ================= PAGE PROCESSUS (MÉTHODE) ================= -->
     <div id="process" class="page">
         <section class="container page-section">
             <div class="services-header reveal">
@@ -3406,32 +3768,31 @@
                 <h2>Mes <span>Services</span></h2>
             </div>
             <div class="svc-deck">
-                <a onclick="navigateTo('service-web')" class="svc-card" style="--i:0; z-index:4;" aria-label="Développement de site web">
+                <a data-service="service-web" class="svc-card" role="button" tabindex="0" style="--i:0; z-index:4;" aria-label="Développement de site web">
                     <div class="svc-inner">
                         <span class="svc-label">Développement de site web</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-app')" class="svc-card" style="--i:1; z-index:3;" aria-label="Développement d'application">
+                <a data-service="service-app" class="svc-card" role="button" tabindex="0" style="--i:1; z-index:3;" aria-label="Développement d'application">
                     <div class="svc-inner">
                         <span class="svc-label">Développement d'application</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-graphic')" class="svc-card" style="--i:2; z-index:2;" aria-label="Graphisme & Motion design">
+                <a data-service="service-graphic" class="svc-card" role="button" tabindex="0" style="--i:2; z-index:2;" aria-label="Graphisme & Motion design">
                     <div class="svc-inner">
                         <span class="svc-label">Graphisme & Motion design</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
-                <a onclick="navigateTo('service-video')" class="svc-card" style="--i:3; z-index:1;" aria-label="Montage Vidéo & Post-production">
+                <a data-service="service-video" class="svc-card" role="button" tabindex="0" style="--i:3; z-index:1;" aria-label="Montage Vidéo & Post-production">
                     <div class="svc-inner">
                         <span class="svc-label">Montage Vidéo & Post-production</span>
                         <div class="svc-face"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy" decoding="async" draggable="false"></div>
                     </div>
                 </a>
             </div>
-            <p class="svc-hint"><span class="hint-hover">Survolez la pile pour découvrir mes services</span><span class="hint-touch">Touchez la pile pour découvrir mes services</span></p>
 
             <div class="service-details">
                 <div>
@@ -3550,7 +3911,7 @@
         </section>
     </div>
 
-    <!-- ================= PAGE PROJET (style Behance) ================= -->
+    <!-- ================= PAGE PROJET ================= -->
     <div id="project-detail" class="page">
         <section class="project-detail-page">
             <div class="project-hero">
@@ -3639,29 +4000,8 @@
         }
         observeReveals(document);
 
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                const el = entry.target;
-                const target = parseInt(el.dataset.count, 10);
-                const suffix = el.dataset.suffix || '';
-                const duration = 1600;
-                const start = performance.now();
-                function tick(now) {
-                    const progress = Math.min((now - start) / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    el.textContent = Math.round(eased * target) + suffix;
-                    if (progress < 1) requestAnimationFrame(tick);
-                }
-                requestAnimationFrame(tick);
-                counterObserver.unobserve(el);
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.stat-number[data-count]').forEach(el => counterObserver.observe(el));
-
         /* ============================================ */
-        /* --- DONNÉES PROJETS (système flexible) --- */
+        /* --- DONNÉES PROJETS --- */
         /* ============================================ */
         const galleryData = [
             {
@@ -3862,21 +4202,16 @@
         const dotsContainer = document.getElementById('galleryDots');
         const coverflowEl = track.parentElement;
 
-        /* ============================================ */
-        /* --- COVERFLOW FLUIDE (boucle infinie)        */
-        /* Les cartes sont créées UNE seule fois, puis   */
-        /* leur position est animée image par image.     */
-        /* ============================================ */
         const N = galleryData.length;
-        const loop = N >= 3;                 // boucle infinie dès 3 réalisations
+        const loop = N >= 3;
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         let cards = [];
         let dims = [];
         let titles = [];
-        let pos = 0;          // position affichée (nombre à virgule, non borné)
-        let target = 0;       // position visée (entier au repos)
-        let vel = 0;          // vitesse du ressort, en cartes / seconde
+        let pos = 0;
+        let target = 0;
+        let vel = 0;
         let rafId = null;
         let lastT = 0;
 
@@ -3884,10 +4219,9 @@
         let dragStartX = 0, dragStartPos = 0, dragLastX = 0, dragLastT = 0;
         let wheelTimer = null;
 
-        const STEP_RATIO = 0.74;   // écart entre deux cartes, en fraction de leur largeur
+        const STEP_RATIO = 0.74;
         const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
-        // Écart signé et circulaire entre la carte i et la position p
         function signedOffset(i, p) {
             let o = i - p;
             if (loop) o = (((o + N / 2) % N) + N) % N - N / 2;
@@ -3910,30 +4244,61 @@
                 card.innerHTML = `
                     <img src="${item.image}" alt="${item.title}" decoding="async" draggable="false">
                     <div class="card-dim"></div>
-                    <div class="card-overlay">
-                        <div class="center-content">
-                            <h3 class="card-main-title">${item.title}</h3>
-                            <p class="card-main-subtitle">${item.subtitle}</p>
-                        </div>
-                    </div>
                 `;
                 card.addEventListener('click', () => {
-                    if (dragMoved) return;                       // c'était un glissement, pas un clic
+                    if (dragMoved) return;
                     const o = signedOffset(index, target);
-                    if (Math.abs(o) < 0.5) openProjectDetail(index);
+                    if (Math.abs(o) < 0.5) expandCardThenOpen(card, index);
                     else goTo(index);
                 });
                 track.appendChild(card);
                 dims.push(card.querySelector('.card-dim'));
-                titles.push(card.querySelector('.center-content'));
                 return card;
             });
         }
 
-        // Applique la position courante à toutes les cartes
+        let expanding = false;
+        function expandCardThenOpen(card, index) {
+            if (expanding) return;
+            const canAnimate = !reduceMotion && typeof card.animate === 'function';
+            if (!canAnimate) { openProjectDetail(index); return; }
+            expanding = true;
+
+            const r = card.getBoundingClientRect();
+            const vw = window.innerWidth, vh = window.innerHeight;
+            const ex = document.createElement('div');
+            ex.className = 'card-expander';
+            ex.style.backgroundImage = `url('${galleryData[index].image}')`;
+            ex.style.cssText += `top:${r.top}px;left:${r.left}px;width:${r.width}px;height:${r.height}px;border-radius:20px;`;
+            document.body.appendChild(ex);
+            card.style.transition = 'opacity .15s';
+            card.style.opacity = 0;
+
+            const cleanup = () => {
+                ex.remove();
+                card.style.transition = '';
+                layout();
+                expanding = false;
+            };
+
+            const grow = ex.animate([
+                { top: r.top + 'px', left: r.left + 'px', width: r.width + 'px', height: r.height + 'px', borderRadius: '20px' },
+                { top: '0px', left: '0px', width: vw + 'px', height: vh + 'px', borderRadius: '0px' }
+            ], { duration: 650, easing: 'cubic-bezier(0.76, 0, 0.24, 1)', fill: 'forwards' });
+
+            grow.onfinish = () => {
+                openProjectDetail(index);
+                setTimeout(() => {
+                    const fade = ex.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, easing: 'ease-out', fill: 'forwards' });
+                    fade.onfinish = cleanup;
+                }, 450);
+            };
+            grow.oncancel = cleanup;
+        }
+
         function layout() {
-            const step = cardWidth() * STEP_RATIO;                      // écart entre deux cartes voisines
-            const fadeEnd = loop ? Math.min(3.2, N / 2) : 3.2;    // distance où la carte disparaît
+            const step = cardWidth() * STEP_RATIO;
+            const fadeEnd = loop ? Math.min(3.2, N / 2) : 3.2;
             const fadeWidth = loop ? Math.min(1, Math.max(N / 2 - 1, 0.25)) : 1;
             let nearest = 0, nearestA = Infinity;
 
@@ -3941,8 +4306,8 @@
                 const o = signedOffset(i, pos);
                 const a = Math.abs(o);
                 const s = Math.sign(o);
-                const near = Math.min(a, 1);                      // 0 → 1 entre le centre et le voisin
-                const far = clamp(a - 1, 0, 2);                   // 0 → 2 au-delà du voisin
+                const near = Math.min(a, 1);
+                const far = clamp(a - 1, 0, 2);
 
                 const x = s * (near * step + far * step * 0.55);
                 const z = -Math.min(a, 3) * 90;
@@ -3958,10 +4323,6 @@
 
                 dims[i].style.opacity = clamp(near * 0.6 + far * 0.12, 0, 0.82);
 
-                const title = titles[i];
-                title.style.opacity = clamp(1 - a * 0.5, 0, 1);
-                title.style.transform = `translateY(${Math.min(a, 2) * 14}px)`;
-
                 card.classList.toggle('active', a < 0.5);
                 if (a < nearestA) { nearestA = a; nearest = i; }
             });
@@ -3972,7 +4333,6 @@
             }
         }
 
-        // Ressort amorti : démarrage doux, freinage naturel, pas de rebond
         function tick(t) {
             rafId = null;
             const dt = Math.min(0.033, (t - lastT) / 1000 || 0.016);
@@ -3987,7 +4347,7 @@
                     pos = target;
                     vel = 0;
                     layout();
-                    return;                                       // au repos : on arrête la boucle
+                    return;
                 }
             }
             layout();
@@ -4043,7 +4403,6 @@
             layout();
         }
 
-        /* --- Glisser à la souris / au doigt --- */
         coverflowEl.addEventListener('pointerdown', (e) => {
             if (e.button !== undefined && e.button !== 0) return;
             if (e.target.closest('.nav-arrow')) return;
@@ -4058,7 +4417,7 @@
         window.addEventListener('pointermove', (e) => {
             if (!dragging) return;
             const dx = e.clientX - dragStartX;
-            if (!dragMoved && Math.abs(dx) < 6) return;           // seuil : évite de bloquer les clics
+            if (!dragMoved && Math.abs(dx) < 6) return;
             if (!dragMoved) { dragMoved = true; coverflowEl.classList.add('dragging'); }
 
             const step = cardWidth() * STEP_RATIO;
@@ -4068,7 +4427,7 @@
             const now = performance.now();
             const dtm = Math.max(1, now - dragLastT);
             const inst = -((e.clientX - dragLastX) / step) / (dtm / 1000);
-            vel = vel * 0.6 + inst * 0.4;                         // vitesse lissée
+            vel = vel * 0.6 + inst * 0.4;
             dragLastX = e.clientX;
             dragLastT = now;
             layout();
@@ -4079,18 +4438,16 @@
             dragging = false;
             coverflowEl.classList.remove('dragging');
             if (dragMoved) {
-                // inertie : on vise la carte la plus proche de là où le geste nous emmène
                 const t = Math.round(pos + clamp(vel, -6, 6) * 0.14);
                 setTarget(t);
-                setTimeout(() => { dragMoved = false; }, 0);      // laisse passer le « click » fantôme
+                setTimeout(() => { dragMoved = false; }, 0);
             }
         }
         window.addEventListener('pointerup', endDrag);
         window.addEventListener('pointercancel', endDrag);
 
-        /* --- Trackpad / molette horizontale --- */
         coverflowEl.addEventListener('wheel', (e) => {
-            if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // scroll vertical normal : on ne touche à rien
+            if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
             e.preventDefault();
             const step = cardWidth() * STEP_RATIO;
             target = (loop ? target : clamp(target, 0, N - 1)) + e.deltaX / step;
@@ -4099,16 +4456,12 @@
             wheelTimer = setTimeout(() => setTarget(Math.round(target)), 120);
         }, { passive: false });
 
-        /* --- Re-calage si la taille change (ou si la page d'accueil redevient visible) --- */
         if ('ResizeObserver' in window) {
             new ResizeObserver(() => layout()).observe(coverflowEl);
         } else {
             window.addEventListener('resize', layout);
         }
 
-        /* ============================================ */
-        /* --- PAGE PROJET DÉDIÉE (système flexible) --- */
-        /* ============================================ */
         let currentProjectIndex = 0;
         let lightboxImages = [];
         let lightboxCurrentIndex = 0;
@@ -4117,7 +4470,6 @@
             currentProjectIndex = index;
             const item = galleryData[index];
 
-            // Hero
             document.getElementById('projectHeroBg').style.backgroundImage = `url('${item.image}')`;
             document.getElementById('projectDetailTitle').textContent = item.title;
             document.getElementById('projectDetailSubtitle').textContent = item.subtitle;
@@ -4125,7 +4477,6 @@
             document.getElementById('projectDetailYear').textContent = item.year;
             document.getElementById('projectDetailService').textContent = item.service;
 
-            // Collecter toutes les images du projet pour la lightbox
             lightboxImages = [];
             item.content.forEach(block => {
                 if (block.type === 'full' && block.src) {
@@ -4135,7 +4486,6 @@
                 }
             });
 
-            // Contenu éditorial
             const contentEl = document.getElementById('projectDetailContent');
             let html = '';
 
@@ -4175,7 +4525,6 @@
                 }
             });
 
-            // Crédits
             if (item.credits) {
                 html += `
                     <div class="project-credits">
@@ -4199,7 +4548,6 @@
                 `;
             }
 
-            // Navigation projet précédent / suivant
             const prevIndex = (index - 1 + galleryData.length) % galleryData.length;
             const nextIndex = (index + 1) % galleryData.length;
             const prevItem = galleryData[prevIndex];
@@ -4222,7 +4570,6 @@
 
             contentEl.innerHTML = html;
 
-            // Attacher les clics lightbox aux images
             contentEl.querySelectorAll('img[data-lightbox-index]').forEach(img => {
                 img.addEventListener('click', () => {
                     const idx = parseInt(img.dataset.lightboxIndex, 10);
@@ -4230,8 +4577,6 @@
                 });
             });
 
-            // Si on est déjà sur la page projet, on scrolle en haut avec un effet doux
-            // Sinon on déclenche la navigation normale (qui scrolle déjà en haut)
             if (currentPageId === 'project-detail') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
@@ -4239,9 +4584,6 @@
             }
         }
 
-        /* ============================================ */
-        /* --- LIGHTBOX --- */
-        /* ============================================ */
         function openLightbox(index) {
             lightboxCurrentIndex = index;
             updateLightboxImage();
@@ -4283,9 +4625,6 @@
             }
         }
 
-        /* ============================================ */
-        /* --- NAVIGATION & RACCOURCIS --- */
-        /* ============================================ */
         document.addEventListener('keydown', (e) => {
             const lightbox = document.getElementById('lightbox');
             const isLightboxOpen = lightbox.classList.contains('active');
@@ -4303,12 +4642,10 @@
             }
         });
 
-        // Fermer la lightbox au clic sur le fond
         document.getElementById('lightbox').addEventListener('click', (e) => {
             if (e.target.id === 'lightbox') closeLightbox();
         });
 
-        // Support tactile sur la lightbox (swipe)
         let lightboxTouchStartX = 0;
         document.getElementById('lightbox').addEventListener('touchstart', (e) => {
             lightboxTouchStartX = e.touches[0].clientX;
@@ -4373,13 +4710,12 @@
                 navContact.style.color = 'var(--accent)';
             } else {
                 navContact.classList.remove('active');
-                navContact.style.color = '#ffffff';
+                navContact.style.color = '#0a0a0a';
             }
 
             const mNavLink = document.getElementById('mnav-' + pageId);
             if (mNavLink) mNavLink.classList.add('active');
 
-            // On ne met pas le hash dans l'URL pour la page projet (elle dépend d'un état dynamique)
             if (pageId === 'project-detail') {
                 history.replaceState(null, '', window.location.pathname);
             } else {
@@ -4390,8 +4726,6 @@
         window.addEventListener('load', () => {
             const hash = window.location.hash.replace('#', '');
             
-            // Si on arrive directement sur #project-detail (sans passer par openProjectDetail),
-            // on redirige vers la page d'accueil car le contenu serait vide
             if (hash === 'project-detail') {
                 history.replaceState(null, '', window.location.pathname);
                 navigateTo('home');
@@ -4412,11 +4746,6 @@
             }
         });
 
-        /* ============================================ */
-        /* --- ACCESSIBILITÉ : liens de nav sans href --- */
-        /* --- (les rend focusables et activables au    --- */
-        /* --- clavier, sans toucher au HTML existant)   --- */
-        /* ============================================ */
         document.querySelectorAll('a[onclick]:not([href])').forEach((link) => {
             link.setAttribute('role', 'button');
             link.setAttribute('tabindex', '0');
@@ -4428,23 +4757,92 @@
             });
         });
 
-        /* ============================================ */
-        /* --- PILES DE CARTES (Expertises + Services)    --- */
-        /* ============================================ */
+        const SERVICE_INFO = {
+            'service-web': {
+                num: '01',
+                title: 'Développement Web',
+                text: "Sites vitrines, plateformes SaaS et applications web sur-mesure. Une architecture moderne, des performances optimales et un design qui convertit, du premier wireframe à la mise en production.",
+                points: [
+                    ['Performance & SEO', 'Lighthouse 90+, Core Web Vitals optimisés'],
+                    ['Design sur-mesure', 'Maquettes Figma, responsive pixel-perfect'],
+                    ['Code maintenable', 'React, Next.js, TypeScript, Tailwind']
+                ],
+                delay: '2 — 6 semaines',
+                price: '750 €',
+                cta: 'Voir les offres Web'
+            },
+            'service-app': {
+                num: '02',
+                title: 'Applications Mobiles',
+                text: "Applications iOS et Android natives ou cross-platform. Une UX pensée pour le mobile, de la performance et de la fluidité, de la conception jusqu'au déploiement sur les stores.",
+                points: [
+                    ['iOS & Android', 'Une seule base de code avec React Native ou Flutter'],
+                    ['UX mobile-first', 'Parcours optimisé, gestes naturels, animations soignées'],
+                    ['Déploiement stores', 'App Store, Play Store, mises à jour et analytics']
+                ],
+                delay: '4 — 12 semaines',
+                price: '3 500 €',
+                cta: 'Voir les offres Mobile'
+            },
+            'service-graphic': {
+                num: '03',
+                title: 'Graphisme & Motion',
+                text: "Identités visuelles, direction artistique et motion design. Des univers graphiques cohérents et mémorables qui donnent du caractère à votre marque sur tous les supports.",
+                points: [
+                    ['Identité visuelle', 'Logo, palette, typographies, charte complète'],
+                    ['Motion design', 'Animations de logo, habillages vidéo, transitions'],
+                    ['Direction artistique', 'Cohérence sur les réseaux, le print, le web et la vidéo']
+                ],
+                delay: '2 — 5 semaines',
+                price: '390 €',
+                cta: 'Voir les offres Design'
+            },
+            'service-video': {
+                num: '04',
+                title: 'Montage Vidéo',
+                text: "Montage, étalonnage, sound design et effets visuels. Des vidéos qui captent l'attention et racontent une histoire, pour le web, les réseaux sociaux ou la publicité.",
+                points: [
+                    ['Montage rythmé', 'Storytelling visuel adapté à chaque plateforme'],
+                    ['Étalonnage pro', 'Color grading cinématographique et ambiance cohérente'],
+                    ['Sound design', 'Mixage, musiques libres de droits, voix-off']
+                ],
+                delay: '1 — 3 semaines',
+                price: '250 €',
+                cta: 'Voir les offres Vidéo'
+            }
+        };
+
         function initServicesDeck(deck) {
             const cards = Array.from(deck.querySelectorAll('.svc-card'));
-            const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+            const N = cards.length;
+            const narrowMQ = window.matchMedia('(max-width: 900px)');
+            const baseZ = cards.map((c) => c.style.zIndex);
             let hot = null;
+            let focused = -1;
+            let swapTimer = null;
 
-            deck.style.setProperty('--mid', (cards.length - 1) / 2);
+            deck.style.setProperty('--mid', (N - 1) / 2);
 
-            // Échelle : l'éventail ouvert doit toujours tenir dans la largeur disponible
+            const stage = document.createElement('div');
+            stage.className = 'svc-stage';
+            deck.parentNode.insertBefore(stage, deck);
+            stage.appendChild(deck);
+
+            const detail = document.createElement('aside');
+            detail.className = 'svc-detail';
+            detail.setAttribute('aria-live', 'polite');
+            detail.innerHTML = '<button type="button" class="svc-d-close" aria-label="Fermer">✕</button><div class="svc-d-body"></div>';
+            stage.appendChild(detail);
+            const body = detail.querySelector('.svc-d-body');
+
             function fit() {
-                const w = deck.clientWidth || deck.parentElement.clientWidth || 680;
+                const w = deck.clientWidth || stage.clientWidth || 680;
                 deck.style.setProperty('--s', Math.min(1, Math.max(0.5, w / 680)).toFixed(3));
+                deck.style.setProperty('--fx', (narrowMQ.matches ? 0 : -w * 0.27).toFixed(1) + 'px');
             }
             if ('ResizeObserver' in window) new ResizeObserver(fit).observe(deck);
             else window.addEventListener('resize', fit);
+            if (narrowMQ.addEventListener) narrowMQ.addEventListener('change', fit);
             fit();
 
             function setHot(card) {
@@ -4453,13 +4851,12 @@
                 cards.forEach((c) => c.classList.toggle('hot', c === card));
                 deck.classList.toggle('has-hot', !!card);
             }
-            const open  = () => deck.classList.add('is-open');
-            const close = () => { deck.classList.remove('is-open'); setHot(null); };
+            const openFan = () => deck.classList.add('is-open');
+            const closeFan = () => { deck.classList.remove('is-open'); setHot(null); };
             const isOpen = () => deck.classList.contains('is-open');
 
-            // Souris : survol de la zone = ouverture ; carte sous le curseur = carte mise en avant
-            deck.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') open(); });
-            deck.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') close(); });
+            deck.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse' && focused < 0) openFan(); });
+            deck.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && focused < 0) closeFan(); });
             const track = (e) => {
                 if (e.pointerType !== 'mouse' || !isOpen()) return;
                 setHot(e.target.closest('.svc-card'));
@@ -4467,39 +4864,555 @@
             deck.addEventListener('pointerover', track);
             deck.addEventListener('pointermove', track);
 
-            // Tactile : 1er toucher = ouvre / met en avant la carte, 2e toucher sur la même carte = ouvre le service
+            function render(info) {
+                body.innerHTML =
+                    '<h3 class="svc-d-item svc-d-title" style="--k:1">' + info.title + '</h3>' +
+                    '<p class="svc-d-item svc-d-text" style="--k:2">' + info.text + '</p>' +
+                    '<ul class="svc-d-item svc-d-points" style="--k:3">' +
+                        info.points.map((p) => '<li><span><b>' + p[0] + '</b> ' + p[1] + '</span></li>').join('') +
+                    '</ul>' +
+                    '<div class="svc-d-item svc-d-meta" style="--k:4">' +
+                        '<div><span>Délai moyen</span><strong>' + info.delay + '</strong></div>' +
+                        '<div><span>À partir de</span><strong>' + info.price + '</strong></div>' +
+                    '</div>' +
+                    '<a class="svc-d-item svc-d-cta" style="--k:5" role="button" tabindex="0">' + info.cta + ' ↗</a>';
+                const cta = body.querySelector('.svc-d-cta');
+                const go = () => navigateTo(info.page);
+                cta.addEventListener('click', go);
+                cta.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+                });
+            }
+
+            function layoutStack(i) {
+                cards.forEach((c, j) => {
+                    const r = (j - i + N) % N;
+                    c.style.setProperty('--r', r);
+                    c.style.zIndex = 20 - r;
+                    c.classList.toggle('is-front', r === 0);
+                    c.setAttribute('aria-pressed', r === 0 ? 'true' : 'false');
+                });
+            }
+
+            function focusCard(i) {
+                if (i === focused) return;
+                const wasFocused = focused >= 0;
+                focused = i;
+                deck.classList.remove('is-open');
+                setHot(null);
+                deck.classList.add('is-focus');
+                stage.classList.add('has-detail');
+                layoutStack(i);
+
+                const key = cards[i].dataset.service;
+                const info = Object.assign({ page: key }, SERVICE_INFO[key]);
+                clearTimeout(swapTimer);
+                if (wasFocused) {
+                    body.classList.remove('in');
+                    swapTimer = setTimeout(() => {
+                        render(info);
+                        void body.offsetWidth;
+                        body.classList.add('in');
+                    }, 320);
+                } else {
+                    render(info);
+                    void body.offsetWidth;
+                    body.classList.add('in');
+                }
+            }
+
+            function closeFocus() {
+                if (focused < 0) return;
+                focused = -1;
+                clearTimeout(swapTimer);
+                body.classList.remove('in');
+                stage.classList.remove('has-detail');
+                deck.classList.remove('is-focus', 'is-open');
+                cards.forEach((c, j) => {
+                    c.style.zIndex = baseZ[j];
+                    c.style.removeProperty('--r');
+                    c.classList.remove('is-front');
+                    c.removeAttribute('aria-pressed');
+                });
+            }
+
             deck.addEventListener('click', (e) => {
                 const card = e.target.closest('.svc-card');
-                if (!card || canHover.matches) return;
-                if (!isOpen() || hot !== card) {
-                    e.preventDefault();
-                    e.stopPropagation();          // empêche le onclick="navigateTo(...)" de la carte
-                    open();
-                    setHot(card);
-                }
-            }, true);
+                if (!card) return;
+                e.preventDefault();
+                focusCard(cards.indexOf(card));
+            });
+            cards.forEach((c, j) => c.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focusCard(j); }
+            }));
+            detail.querySelector('.svc-d-close').addEventListener('click', closeFocus);
             document.addEventListener('pointerdown', (e) => {
-                if (!canHover.matches && isOpen() && !deck.contains(e.target)) close();
+                if (focused >= 0 && !stage.contains(e.target)) closeFocus();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && focused >= 0) closeFocus();
             });
 
-            // Clavier : la carte qui reçoit le focus ouvre l'éventail (Entrée = ouvrir le service).
-            // Seulement pour un vrai focus clavier : un toucher/clic donne aussi le focus, mais doit
-            // suivre sa propre logique (voir plus haut).
             deck.addEventListener('focusin', (e) => {
+                if (focused >= 0) return;
                 const card = e.target.closest('.svc-card');
                 if (!card) return;
                 let byKeyboard = true;
                 try { byKeyboard = card.matches(':focus-visible'); } catch (_) {}
-                if (byKeyboard) { open(); setHot(card); }
+                if (byKeyboard) { openFan(); setHot(card); }
             });
             deck.addEventListener('focusout', (e) => {
-                if (!deck.contains(e.relatedTarget)) close();
+                if (focused < 0 && !deck.contains(e.relatedTarget)) closeFan();
             });
         }
         document.querySelectorAll('.svc-deck').forEach(initServicesDeck);
 
         createDots();
         renderGallery();
+    </script>
+
+    <script>
+    /* ============================================ */
+    /* --- WIRE TERRAIN (WebGL) — fond du hero --- */
+    /* ============================================ */
+    (function () {
+        const hero = document.getElementById('heroSection');
+        const root = document.getElementById('heroTerrain');
+        const canvas = document.getElementById('heroTerrainCanvas');
+        if (!hero || !root || !canvas) return;
+
+        const DEPTH = 60, HALF_X = 64, BACK = 10;
+        const FOG_NEAR = 14, FOG_FAR = 46;
+        const FLIGHT_RATE = 4, EYE_HEIGHT = 1.7;
+        const RIDGE = 4.2, VALLEY = 3;
+        const FOV = (58 * Math.PI) / 180;
+        const SUN_ELEV = 0.02, SUN_RADIUS = 0.22;
+        const BASE_PITCH = (6.5 * Math.PI) / 180;
+        const STEER_YAW = (11 * Math.PI) / 180;
+        const STEER_LIFT = 0.8;
+        const DPR_CAP = 2;
+        const DEG = Math.PI / 180;
+
+        const CFG = {
+            background: '#ffffff',
+            lineColor: '#E24200',
+            accent: '#FF4500',
+            density: window.innerWidth < 768 ? 70 : 120,
+            speed: 100,
+            relief: 100,
+            sunSize: 0,
+            cameraHeight: 94,
+            hover: 200
+        };
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) CFG.speed = 0;
+
+        const colorCache = new Map();
+        function parseColor(input, fallback) {
+            if (!input) return fallback;
+            const hit = colorCache.get(input);
+            if (hit) return hit;
+            const cv = document.createElement('canvas');
+            cv.width = cv.height = 1;
+            const ctx = cv.getContext('2d', { willReadFrequently: true });
+            if (!ctx) return fallback;
+            ctx.fillStyle = '#010203';
+            ctx.fillStyle = input;
+            ctx.clearRect(0, 0, 1, 1);
+            ctx.fillRect(0, 0, 1, 1);
+            const d = ctx.getImageData(0, 0, 1, 1).data;
+            const out = [d[0], d[1], d[2], d[3] / 255];
+            colorCache.set(input, out);
+            return out;
+        }
+
+        const TERRAIN_VERT = `
+precision highp float;
+attribute vec3 aP;
+uniform float uCamZ;
+uniform vec3 uCam;
+uniform vec3 uR0;
+uniform vec3 uR1;
+uniform vec3 uR2;
+uniform vec4 uProj;
+uniform float uAmp;
+uniform vec2 uNudge;
+varying float vFog;
+varying float vDist;
+
+float hash(vec2 c) {
+    return fract(sin(dot(c, vec2(127.1, 311.7))) * 43758.5453);
+}
+float vnoise(vec2 p, float period) {
+    vec2 i = floor(p);
+    vec2 f = p - i;
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    float z0 = mod(i.y, period);
+    float z1 = mod(i.y + 1.0, period);
+    float a = hash(vec2(i.x, z0));
+    float b = hash(vec2(i.x + 1.0, z0));
+    float c = hash(vec2(i.x, z1));
+    float d = hash(vec2(i.x + 1.0, z1));
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
+float height(float x, float z) {
+    float n = vnoise(vec2(x, z) / 6.0, ${(DEPTH / 6).toFixed(1)}) * 0.6
+            + vnoise(vec2(x, z) / 3.0, ${(DEPTH / 3).toFixed(1)}) * 0.27
+            + vnoise(vec2(x, z) / 1.5, ${(DEPTH / 1.5).toFixed(1)}) * 0.13;
+    float ax = abs(x);
+    float side = smoothstep(${VALLEY.toFixed(1)}, ${(VALLEY + 13).toFixed(1)}, ax);
+    return uAmp * (side * (pow(n, 1.6) * 2.1 + 0.55 * ax / ${HALF_X.toFixed(1)}) + 0.1 * (n - 0.5));
+}
+
+void main() {
+    float relA = mod(aP.y - uCamZ + ${BACK.toFixed(1)}, ${DEPTH.toFixed(1)}) - ${BACK.toFixed(1)};
+    float zr = relA + aP.z;
+    float h = height(aP.x, uCamZ + zr);
+    vec3 q = vec3(aP.x - uCam.x, h - uCam.y, zr);
+    vec3 v = vec3(dot(uR0, q), dot(uR1, q), dot(uR2, q));
+    float dist = length(vec2(q.x * 0.55, zr));
+    vDist = dist;
+    vFog = 1.0 - smoothstep(${FOG_NEAR.toFixed(1)}, ${FOG_FAR.toFixed(1)}, dist);
+    gl_Position = vec4(v.x * uProj.x, v.y * uProj.y, uProj.z * v.z + uProj.w, v.z);
+    gl_Position.xy += uNudge * v.z;
+}
+`;
+
+        const TERRAIN_FRAG = `
+precision highp float;
+uniform vec4 uColor;
+uniform float uSolid;
+varying float vFog;
+varying float vDist;
+void main() {
+    float fillFog = 1.0 - smoothstep(${(FOG_FAR - 5).toFixed(1)}, ${FOG_FAR.toFixed(1)}, vDist);
+    float a = uColor.a * mix(vFog, fillFog, uSolid);
+    gl_FragColor = vec4(uColor.rgb, a);
+}
+`;
+
+        const SKY_VERT = `
+attribute vec3 aP;
+void main() { gl_Position = vec4(aP.xy, 0.0, 1.0); }
+`;
+
+        const SKY_FRAG = `
+precision highp float;
+uniform vec2 uRes;
+uniform vec3 uUp;
+uniform vec2 uFocal;
+uniform vec3 uSun;
+uniform float uBandT;
+uniform vec3 uBg;
+uniform vec4 uAccent;
+
+void main() {
+    vec2 p = gl_FragCoord.xy;
+    vec2 ndc = p / uRes * 2.0 - 1.0;
+    vec3 ray = vec3(ndc.x / uFocal.x, ndc.y / uFocal.y, 1.0);
+    float worldY = dot(uUp, ray) / length(ray);
+
+    float pxPerRad = uRes.y * 0.5 * uFocal.y;
+    float above = clamp(worldY * pxPerRad + 0.5, 0.0, 1.0);
+
+    vec3 col = uBg;
+    float R = max(uSun.z, 1.0);
+    vec2 dv = p - uSun.xy;
+    float d = length(dv);
+
+    float halo = exp(-max(d - R, 0.0) / (R * 0.9)) * 0.16;
+    col = mix(col, uAccent.rgb, halo * uAccent.a * (0.35 + 0.65 * above));
+
+    float disc = clamp(R - d + 0.5, 0.0, 1.0);
+    float yy = (uSun.y - p.y) / R;
+    float period = max(R * 0.11, 3.0);
+    float s = fract((uSun.y - p.y) / period + uBandT) * period;
+    float cut = clamp((yy + 0.3) * 0.5, 0.0, 0.8) * period;
+    float band = yy > -0.3 ? clamp(s - cut + 0.5, 0.0, 1.0) : 1.0;
+    vec3 sunTop = mix(uAccent.rgb, vec3(1.0, 0.93, 0.78), 0.32);
+    vec3 sunCol = mix(sunTop, uAccent.rgb * 0.9, clamp(yy * 0.5 + 0.5, 0.0, 1.0));
+
+    col = mix(col, sunCol, disc * band * uAccent.a);
+
+    gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+        function compile(gl, type, src) {
+            const sh = gl.createShader(type);
+            if (!sh) return null;
+            gl.shaderSource(sh, src);
+            gl.compileShader(sh);
+            if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+                console.error('WireTerrain shader: ' + gl.getShaderInfoLog(sh));
+                gl.deleteShader(sh);
+                return null;
+            }
+            return sh;
+        }
+
+        function link(gl, vs, fs) {
+            const v = compile(gl, gl.VERTEX_SHADER, vs);
+            const f = compile(gl, gl.FRAGMENT_SHADER, fs);
+            if (!v || !f) return null;
+            const prog = gl.createProgram();
+            if (!prog) return null;
+            gl.attachShader(prog, v);
+            gl.attachShader(prog, f);
+            gl.bindAttribLocation(prog, 0, 'aP');
+            gl.linkProgram(prog);
+            if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+                console.error('WireTerrain link: ' + gl.getProgramInfoLog(prog));
+                return null;
+            }
+            return prog;
+        }
+
+        function buildLattice(rows) {
+            const s = DEPTH / rows;
+            const nx = Math.max(2, 2 * Math.round(HALF_X / s));
+            const tris = new Float32Array(nx * rows * 18);
+            const lines = new Float32Array(nx * rows * 12);
+            let t = 0, l = 0;
+            for (let j = 0; j < rows; j++) {
+                const z0 = j * s;
+                for (let i = 0; i < nx; i++) {
+                    const x0 = -HALF_X + (i + 0.5) * s;
+                    const x1 = x0 + s;
+                    tris.set([x0, z0, 0, x1, z0, 0, x1, z0, s, x0, z0, 0, x1, z0, s, x0, z0, s], t);
+                    t += 18;
+                    lines.set([x0, z0, 0, x1, z0, 0, x0, z0, 0, x0, z0, s], l);
+                    l += 12;
+                }
+            }
+            return { tris, lines };
+        }
+
+        const gl = canvas.getContext('webgl', { antialias: true, alpha: false, depth: true });
+        if (!gl) { root.style.background = 'var(--gradient-hero)'; return; }
+
+        const terrain = link(gl, TERRAIN_VERT, TERRAIN_FRAG);
+        const sky = link(gl, SKY_VERT, SKY_FRAG);
+        if (!terrain || !sky) { root.style.background = 'var(--gradient-hero)'; return; }
+
+        const tu = {
+            camZ: gl.getUniformLocation(terrain, 'uCamZ'),
+            cam: gl.getUniformLocation(terrain, 'uCam'),
+            r0: gl.getUniformLocation(terrain, 'uR0'),
+            r1: gl.getUniformLocation(terrain, 'uR1'),
+            r2: gl.getUniformLocation(terrain, 'uR2'),
+            proj: gl.getUniformLocation(terrain, 'uProj'),
+            amp: gl.getUniformLocation(terrain, 'uAmp'),
+            nudge: gl.getUniformLocation(terrain, 'uNudge'),
+            color: gl.getUniformLocation(terrain, 'uColor'),
+            solid: gl.getUniformLocation(terrain, 'uSolid')
+        };
+        const su = {
+            res: gl.getUniformLocation(sky, 'uRes'),
+            up: gl.getUniformLocation(sky, 'uUp'),
+            focal: gl.getUniformLocation(sky, 'uFocal'),
+            sun: gl.getUniformLocation(sky, 'uSun'),
+            bandT: gl.getUniformLocation(sky, 'uBandT'),
+            bg: gl.getUniformLocation(sky, 'uBg'),
+            accent: gl.getUniformLocation(sky, 'uAccent')
+        };
+
+        const quad = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 0, 3, -1, 0, -1, 3, 0]), gl.STATIC_DRAW);
+        const triBuf = gl.createBuffer();
+        const lineBuf = gl.createBuffer();
+        let triCount = 0, lineCount = 0, latticeRows = -1;
+        gl.enableVertexAttribArray(0);
+        gl.depthFunc(gl.LEQUAL);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        let W = 0, H = 0, dpr = 1;
+        function resize() {
+            dpr = Math.min(DPR_CAP, window.devicePixelRatio || 1);
+            W = root.offsetWidth || 1200;
+            H = root.offsetHeight || 800;
+            const bw = Math.max(1, Math.round(W * dpr));
+            const bh = Math.max(1, Math.round(H * dpr));
+            if (canvas.width !== bw || canvas.height !== bh) {
+                canvas.width = bw;
+                canvas.height = bh;
+            }
+        }
+        resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(root);
+        else window.addEventListener('resize', resize);
+
+        const pointer = { nx: 0, ny: 0, active: false, presence: 0 };
+        const cam = { yaw: 0, roll: 0, lift: 0, init: false };
+        let camZ = 0, tIdle = 0, raf = 0, last = -1;
+
+        const bg = parseColor(CFG.background, [255, 255, 255, 1]);
+        const line = parseColor(CFG.lineColor, [177, 43, 0, 1]);
+        const acc = parseColor(CFG.accent, [255, 69, 0, 1]);
+
+        function frame(now) {
+            const rows = Math.max(10, Math.min(120, Math.round(CFG.density)));
+            const speed = Math.max(0, CFG.speed);
+            const relief = Math.max(0, CFG.relief) / 100;
+            const sunSize = Math.max(0, CFG.sunSize) / 100;
+            const eye = Math.max(0.1, CFG.cameraHeight / 100) * EYE_HEIGHT;
+            const hover = Math.max(0, CFG.hover) / 100;
+
+            if (rows !== latticeRows) {
+                latticeRows = rows;
+                const lat = buildLattice(rows);
+                gl.bindBuffer(gl.ARRAY_BUFFER, triBuf);
+                gl.bufferData(gl.ARRAY_BUFFER, lat.tris, gl.STATIC_DRAW);
+                triCount = lat.tris.length / 3;
+                gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf);
+                gl.bufferData(gl.ARRAY_BUFFER, lat.lines, gl.STATIC_DRAW);
+                lineCount = lat.lines.length / 3;
+            }
+
+            const dt = last < 0 ? 0 : Math.min(0.05, Math.max(0, (now - last) / 1000));
+            last = now;
+            const rate = speed / 50;
+            camZ = (camZ + dt * rate * FLIGHT_RATE) % DEPTH;
+            tIdle += dt * rate;
+
+            const pe = 1 - Math.exp(-dt * 3);
+            pointer.presence += ((pointer.active ? 1 : 0) - pointer.presence) * pe;
+            if (!pointer.active && pointer.presence < 0.002) pointer.presence = 0;
+            const k = pointer.presence * Math.min(1, hover);
+            const idleYaw = (Math.sin(tIdle * 0.21) * 3 + Math.sin(tIdle * 0.13 + 2) * 1.5) * DEG;
+            const idleRoll = Math.sin(tIdle * 0.17 + 1) * 1.8 * DEG;
+            const idleLift = Math.sin(tIdle * 0.11) * 0.12;
+            const yawT = idleYaw * (1 - k) + pointer.nx * STEER_YAW * hover * k;
+            const liftT = idleLift * (1 - k) + -pointer.ny * STEER_LIFT * hover * k;
+            const rollT = idleRoll * (1 - k) - yawT * 0.55 * k;
+            if (!cam.init) {
+                cam.yaw = yawT; cam.roll = rollT; cam.lift = liftT; cam.init = true;
+            }
+            const ce = 1 - Math.exp(-dt * 2.5);
+            cam.yaw += (yawT - cam.yaw) * ce;
+            cam.roll += (rollT - cam.roll) * ce;
+            cam.lift += (liftT - cam.lift) * ce;
+
+            const camY = Math.max(0.35, eye * (1 + cam.lift));
+            const pitch = BASE_PITCH + (camY / EYE_HEIGHT - 1) * 2.2 * DEG;
+
+            const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+            const cp = Math.cos(pitch), sp = Math.sin(pitch);
+            const cr = Math.cos(cam.roll), sr = Math.sin(cam.roll);
+
+            const a0 = [cy, 0, -sy];
+            const a1 = [sp * sy, cp, sp * cy];
+            const a2 = [cp * sy, -sp, cp * cy];
+
+            const r0 = [cr * a0[0] - sr * a1[0], cr * a0[1] - sr * a1[1], cr * a0[2] - sr * a1[2]];
+            const r1 = [sr * a0[0] + cr * a1[0], sr * a0[1] + cr * a1[1], sr * a0[2] + cr * a1[2]];
+            const r2 = a2;
+
+            const aspect = W / Math.max(1, H);
+            const fy = 1 / Math.tan(FOV / 2);
+            const fx = fy / aspect;
+            const near = 0.05, far = 200;
+            const A = (far + near) / (far - near);
+            const B = (-2 * far * near) / (far - near);
+
+            const sd = [0, SUN_ELEV, 1];
+            const sv = [
+                r0[0] * sd[0] + r0[1] * sd[1] + r0[2] * sd[2],
+                r1[0] * sd[0] + r1[1] * sd[1] + r1[2] * sd[2],
+                r2[0] * sd[0] + r2[1] * sd[1] + r2[2] * sd[2]
+            ];
+            const svz = Math.max(1e-3, sv[2]);
+            const bw = canvas.width, bh = canvas.height;
+            const sunX = ((sv[0] / svz) * fx * 0.5 + 0.5) * bw;
+            const sunY = ((sv[1] / svz) * fy * 0.5 + 0.5) * bh;
+
+            gl.viewport(0, 0, bw, bh);
+            gl.clearColor(bg[0] / 255, bg[1] / 255, bg[2] / 255, 1);
+            gl.depthMask(true);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+            gl.disable(gl.DEPTH_TEST);
+            gl.disable(gl.BLEND);
+            gl.useProgram(sky);
+            gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+            gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+            gl.uniform2f(su.res, bw, bh);
+            gl.uniform3f(su.up, r0[1], r1[1], r2[1]);
+            gl.uniform2f(su.focal, fx, fy);
+            gl.uniform3f(su.sun, sunX, sunY, SUN_RADIUS * sunSize * bh);
+            gl.uniform1f(su.bandT, tIdle * 0.12);
+            gl.uniform3f(su.bg, bg[0] / 255, bg[1] / 255, bg[2] / 255);
+            gl.uniform4f(su.accent, acc[0] / 255, acc[1] / 255, acc[2] / 255, sunSize > 0 ? acc[3] : 0);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+            gl.useProgram(terrain);
+            gl.uniform1f(tu.camZ, camZ);
+            gl.uniform3f(tu.cam, 0, camY, 0);
+            gl.uniform3f(tu.r0, r0[0], r0[1], r0[2]);
+            gl.uniform3f(tu.r1, r1[0], r1[1], r1[2]);
+            gl.uniform3f(tu.r2, r2[0], r2[1], r2[2]);
+            gl.uniform4f(tu.proj, fx, fy, A, B);
+            gl.uniform1f(tu.amp, RIDGE * relief);
+            gl.enable(gl.DEPTH_TEST);
+            gl.enable(gl.BLEND);
+
+            gl.depthMask(true);
+            gl.enable(gl.POLYGON_OFFSET_FILL);
+            gl.polygonOffset(1, 1);
+            gl.uniform2f(tu.nudge, 0, 0);
+            gl.uniform1f(tu.solid, 1);
+            gl.uniform4f(tu.color, bg[0] / 255, bg[1] / 255, bg[2] / 255, 1);
+            gl.bindBuffer(gl.ARRAY_BUFFER, triBuf);
+            gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+            gl.drawArrays(gl.TRIANGLES, 0, triCount);
+            gl.disable(gl.POLYGON_OFFSET_FILL);
+
+            gl.depthMask(false);
+            gl.uniform1f(tu.solid, 0);
+            gl.uniform4f(tu.color, line[0] / 255, line[1] / 255, line[2] / 255, line[3]);
+            gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf);
+            gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+            gl.drawArrays(gl.LINES, 0, lineCount);
+            if (dpr > 1.25) {
+                gl.uniform2f(tu.nudge, 2 / bw, 2 / bh);
+                gl.drawArrays(gl.LINES, 0, lineCount);
+            }
+            gl.depthMask(true);
+
+            raf = requestAnimationFrame(frame);
+        }
+
+        function start() {
+            if (raf) return;
+            resize();
+            last = -1;
+            raf = requestAnimationFrame(frame);
+        }
+        function stop() {
+            if (raf) cancelAnimationFrame(raf);
+            raf = 0;
+        }
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                entries.forEach((e) => (e.isIntersecting ? start() : stop()));
+            }, { threshold: 0 }).observe(hero);
+        } else {
+            start();
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stop();
+            else if (hero.offsetParent !== null) start();
+        });
+
+        hero.addEventListener('pointermove', (e) => {
+            const r = hero.getBoundingClientRect();
+            pointer.nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / (r.width || 1)) * 2 - 1));
+            pointer.ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / (r.height || 1)) * 2 - 1));
+            pointer.active = true;
+        });
+        hero.addEventListener('pointerleave', () => { pointer.active = false; });
+    })();
     </script>
 
 </body>
